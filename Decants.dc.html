@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/classical-280dc767-045c-4836-a55f-a92fbb1c2a6c/styles.css">
+<script src="_ds/classical-280dc767-045c-4836-a55f-a92fbb1c2a6c/_ds_bundle.js"></script>
+<script src="image-slot.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Manrope:wght@400;600;700&display=swap');
+:root { --font-heading: 'Oswald', system-ui, sans-serif; --font-body: 'Manrope', system-ui, sans-serif; }
+body { background: #ffffff; margin: 0; font-family: var(--font-body); }
+a { color: var(--color-accent-700); text-underline-offset: 3px; }
+a:hover { color: var(--color-accent-600); }
+/* sticky host */
+html, body { height: auto; min-height: 100%; }
+#dc-root, .sc-host { height: auto; min-height: 100%; }
+</style>
+</helmet>
+
+<nav class="nav" data-screen-label="Navegación" style="position:sticky;top:0;z-index:60;box-shadow:0 1px 0 rgba(27,24,22,0.10), 0 6px 18px rgba(27,24,22,0.06);padding-inline:max(40px, calc((100% - 1280px) / 2 + 40px)); background:#1b1816;color:#f3f2f2">
+  <a href="Maros Landing.dc.html" class="nav-brand" aria-label="Ir al inicio" style="display:flex;flex-direction:column;line-height:1.1;text-decoration:none;color:#f3f2f2">
+    <span style="font-size:26px;letter-spacing:0.14em">MAROS</span>
+    <span style="font-family:var(--font-body);font-size:9px;letter-spacing:0.26em;text-transform:uppercase;color:var(--color-accent-400)">Perfumes &amp; Decants</span>
+  </a>
+  <a href="Catalogo.dc.html" style="font-size:12.5px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:rgba(243,242,242,0.85)" style-hover="color:var(--color-accent-400)">Catálogo</a>
+  <a href="Decants.dc.html" aria-current="page" style="font-size:12.5px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:var(--color-accent-400)">Decants</a>
+  <a href="Packs.dc.html" style="font-size:12.5px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:rgba(243,242,242,0.85)" style-hover="color:var(--color-accent-400)">Packs de decants</a>
+  <a href="Combo.dc.html" style="font-size:12.5px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:rgba(243,242,242,0.85)" style-hover="color:var(--color-accent-400)">Arma tu combo</a>
+  <a href="Contacto.dc.html" style="font-size:12.5px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:rgba(243,242,242,0.85)" style-hover="color:var(--color-accent-400)">Contacto</a>
+  <div style="display:flex;gap:6px;align-items:center">
+    <button type="button" aria-label="Buscar" onClick="{{ openSearch }}" style="background:none;border:none;padding:6px;cursor:pointer;color:var(--color-accent-400);display:flex" style-hover="color:#f3f2f2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg></button>
+    
+    <button type="button" aria-label="Carrito" style="background:none;border:none;padding:6px;cursor:pointer;color:var(--color-accent-400);display:flex;position:relative" style-hover="color:#f3f2f2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 14H5L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg><sc-if value="{{ hasCart }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-2px;right:-2px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:var(--color-accent);color:#1b1816;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;font-feature-settings:'tnum' 1">{{ cartCount }}</span></sc-if></button>
+  </div>
+</nav>
+
+<div style="max-width:1280px;margin:0 auto;padding:0 40px 72px" data-screen-label="Decants">
+  <div style="margin-top:36px">
+    <div style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700)">Antes de comprar tu botella</div>
+    <h1 style="font-family:var(--font-heading);font-weight:500;font-size:44px;letter-spacing:0.03em;text-transform:uppercase;margin:6px 0 0">Decants</h1>
+    <p style="font-size:14px;color:color-mix(in srgb, var(--color-text) 65%, transparent);max-width:60ch;margin:10px 0 0">Prueba fragancias originales en formato pequeño antes de invertir en la botella completa. Sellados y etiquetados al momento de tu pedido.</p>
+  </div>
+
+  <div style="display:flex;gap:10px;margin-top:26px;flex-wrap:wrap">
+    <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+      <button type="button" onClick="{{ t.select }}" class="btn" style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 18px;color:{{ t.color }};border-color:var(--color-accent);background:{{ t.bg }}">{{ t.label }}</button>
+    </sc-for>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:18px;margin:22px 0 26px">
+    <button type="button" onClick="{{ toggleAvail }}" style="display:flex;align-items:center;gap:6px;font:inherit;font-size:13px;background:none;border:none;cursor:pointer;padding:0;color:{{ availColor }}">Disponibilidad <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></button>
+    <button type="button" onClick="{{ toggleSort }}" style="display:flex;align-items:center;gap:6px;font:inherit;font-size:13px;background:none;border:none;cursor:pointer;padding:0;color:var(--color-text)">{{ sortLabel }} <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></button>
+    <div style="flex:1"></div>
+    <span style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 55%, transparent);font-feature-settings:'tnum' 1">{{ count }} artículos</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px 16px">
+    <sc-for list="{{ items }}" as="p" hint-placeholder-count="10">
+      <div style="cursor:pointer;min-width:0" onClick="{{ p.open }}">
+        <div style="position:relative;background:#f0efee;border-radius:var(--radius-md);overflow:hidden">
+          <image-slot id="{{ p.slotId }}" shape="rect" style="width:100%;aspect-ratio:4/5;filter:{{ p.imgFilter }}" placeholder="{{ p.name }}"></image-slot>
+          <sc-if value="{{ p.soldOut }}" hint-placeholder-val="{{ false }}">
+            <span style="position:absolute;top:10px;left:10px;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;background:#ffffff;border:1px solid var(--color-divider);border-radius:999px;padding:4px 10px;color:color-mix(in srgb, var(--color-text) 65%, transparent)">Agotado</span>
+          </sc-if>
+          <sc-if value="{{ p.badge }}" hint-placeholder-val="{{ false }}">
+            <span style="position:absolute;top:10px;right:10px;font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:{{ p.badgeBg }};color:#ffffff;padding:4px 9px;border-radius:999px">{{ p.badge }}</span>
+          </sc-if>
+        </div>
+        <div style="padding:12px 2px 0;display:flex;flex-direction:column;gap:4px;opacity:{{ p.textOpacity }}">
+          <div style="font-size:14px;font-weight:600">{{ p.name }}</div>
+          <div style="font-size:13px;color:color-mix(in srgb, var(--color-text) 68%, transparent);font-feature-settings:'tnum' 1">{{ p.priceLabel }}</div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{ selected }}" hint-placeholder-val="{{ false }}">
+    <div class="dialog-backdrop" onClick="{{ close }}" style="position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:24px">
+      <div class="dialog" onClick="{{ stop }}" style="max-width:1180px;width:100%;max-height:92vh;overflow:auto;padding:0">
+        <div style="display:grid;grid-template-columns:minmax(0,11fr) minmax(0,9fr)">
+
+          <div style="background:#f0efee;padding:28px;display:flex;flex-direction:column;gap:14px;position:relative">
+            <div style="flex:1;display:flex;align-items:center">
+              <image-slot id="{{ selectedSlot }}" shape="rect" style="width:100%;aspect-ratio:1/1" placeholder="Foto principal del producto"></image-slot>
+            </div>
+            <button type="button" aria-label="Anterior" onClick="{{ prevProd }}" style="position:absolute;left:16px;top:45%;width:40px;height:40px;border-radius:50%;background:#ffffff;border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text)" style-hover="border-color:var(--color-accent)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"></path></svg></button>
+            <button type="button" aria-label="Siguiente" onClick="{{ nextProd }}" style="position:absolute;right:16px;top:45%;width:40px;height:40px;border-radius:50%;background:#ffffff;border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text)" style-hover="border-color:var(--color-accent)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"></path></svg></button>
+            <div style="display:flex;gap:10px;justify-content:center">
+              <image-slot id="{{ thumb1 }}" shape="rect" style="width:64px;height:64px;background:#ffffff" placeholder="Foto 2"></image-slot>
+              <image-slot id="{{ thumb2 }}" shape="rect" style="width:64px;height:64px;background:#ffffff" placeholder="Foto 3"></image-slot>
+              <image-slot id="{{ thumb3 }}" shape="rect" style="width:64px;height:64px;background:#ffffff" placeholder="Foto 4"></image-slot>
+            </div>
+          </div>
+
+          <div style="padding:28px 32px 32px;display:flex;flex-direction:column">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+              <div>
+                <div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700)">{{ selected.brand }}</div>
+                <h2 style="font-family:var(--font-heading);font-weight:500;font-size:28px;letter-spacing:0.02em;margin:4px 0 0;text-transform:uppercase">{{ selected.name }}</h2>
+              </div>
+              <button type="button" class="btn btn-ghost btn-icon" aria-label="Cerrar" onClick="{{ close }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+            </div>
+            <span class="tag {{ stockTagClass }}" style="align-self:flex-start;margin-top:10px;font-feature-settings:'tnum' 1">{{ stockLabel }}</span>
+
+            <div style="display:flex;align-items:center;gap:14px;margin:22px 0 12px">
+              <span style="flex:1;height:1px;background:var(--color-divider)"></span>
+              <span style="font-size:13px;font-weight:700;letter-spacing:0.06em">Elige tu tester</span>
+              <span style="flex:1;height:1px;background:var(--color-divider)"></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;margin:-2px 0 12px;font-size:11.5px;letter-spacing:0.04em;color:#1a7d38"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="m9 12 2 2 4-4"></path></svg> Pago contra entrega: paga cuando recibas tu tester (previo adelanto).</div>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:end">
+              <sc-for list="{{ sizeOptions }}" as="s" hint-placeholder-count="3">
+                <div style="min-width:0">
+                  <sc-if value="{{ s.badge }}" hint-placeholder-val="{{ false }}">
+                    <div style="background:#1b1816;color:#ffffff;font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;text-align:center;padding:4px 6px">Más vendido</div>
+                  </sc-if>
+                  <button type="button" onClick="{{ s.select }}" style="width:100%;background:#ffffff;border:{{ s.border }};padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font:inherit">
+                    <span style="width:15px;height:15px;border-radius:50%;border:1.5px solid #1b1816;display:flex;align-items:center;justify-content:center"><span style="width:7px;height:7px;border-radius:50%;background:{{ s.dot }}"></span></span>
+                    <span style="font-size:15px;font-weight:700;font-feature-settings:'tnum' 1">{{ s.priceLabel }}</span>
+                    <span style="font-size:11.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent);text-align:center;font-feature-settings:'tnum' 1">{{ s.ml }}</span>
+                  </button>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:22px">
+              <div style="display:flex;align-items:center;border:1px solid var(--color-divider);border-radius:999px">
+                <button type="button" onClick="{{ qtyMinus }}" aria-label="Menos" style="width:38px;height:42px;background:none;border:none;cursor:pointer;font-size:16px;color:var(--color-text)">−</button>
+                <span style="min-width:24px;text-align:center;font-size:14px;font-feature-settings:'tnum' 1">{{ qty }}</span>
+                <button type="button" onClick="{{ qtyPlus }}" aria-label="Más" style="width:38px;height:42px;background:none;border:none;cursor:pointer;font-size:16px;color:var(--color-text)">+</button>
+              </div>
+              <button type="button" onClick="{{ addToCart }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#1b1816;color:#ffffff;border:none;border-radius:999px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:background .25s ease" style-hover="background:#33302d"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 14H5L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg> {{ cartBtnLabel }}</button>
+            </div>
+            <a href="{{ waHref }}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;height:44px;background:#ffffff;color:#1b1816;border:1.5px solid #1b1816;border-radius:999px;font-size:13px;font-weight:600;text-decoration:none" style-hover="background:#f6f5f4"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.5 8.5 0 1 1 16.1-3.8Z"></path></svg> Pedir por WhatsApp</a>
+
+            <div style="margin-top:12px;background:#22a447;color:#ffffff;display:flex;align-items:center;justify-content:center;gap:7px;padding:7px 12px;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:0.08em"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="m9 12 2 2 4-4"></path></svg> PAGO CONTRA ENTREGA · PREVIO ADELANTO</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px;text-align:center">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5M12 22V12"></path></svg><span style="font-size:11.5px;font-weight:600;line-height:1.4">Envío gratis (+S/. 200)</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"></path></svg><span style="font-size:11.5px;font-weight:600;line-height:1.4">3 días de derecho de devolución</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z"></path><path d="m9 12 2 2 4-4"></path></svg><span style="font-size:11.5px;font-weight:600;line-height:1.4">Perfumes 100% Originales</span></div>
+            </div>
+
+            <div style="margin-top:22px;border-top:1px solid var(--color-divider);padding-top:16px">
+              <p style="font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 78%, transparent);margin:0">{{ selected.desc }}</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px">
+                <div><div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">Salida</div><div style="font-size:12.5px;margin-top:4px">{{ selected.top }}</div></div>
+                <div><div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">Corazón</div><div style="font-size:12.5px;margin-top:4px">{{ selected.heart }}</div></div>
+                <div><div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">Fondo</div><div style="font-size:12.5px;margin-top:4px">{{ selected.base }}</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+
+<a href="https://wa.me/51987654321" aria-label="Escríbenos por WhatsApp" style="position:fixed;right:24px;bottom:24px;width:56px;height:56px;border-radius:50%;background:#25d366;color:#ffffff;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-lg);z-index:50" style-hover="background:#1fb958"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.5 8.5 0 1 1 16.1-3.8Z"></path></svg></a>
+
+<sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;background:rgba(27,24,22,0.55);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding-top:14vh" onClick="{{ closeSearch }}">
+  <div style="background:#ffffff;width:min(760px, 92vw);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);padding:34px 40px" onClick="{{ stopClick }}">
+    <div style="display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--color-divider);padding-bottom:20px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" style="color:color-mix(in srgb, var(--color-text) 55%, transparent)"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+      <input type="text" placeholder="Buscar" autoFocus="{{ true }}" style="flex:1;border:none;outline:none;font-size:20px;font-family:var(--font-body);color:var(--color-text)"></input>
+      <button type="button" class="btn btn-ghost btn-icon" aria-label="Cerrar" onClick="{{ closeSearch }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="M6 6l12 12"></path></svg></button>
+    </div>
+    <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent);margin-top:26px;text-align:center">Productos</div>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;margin-top:20px;justify-content:center">
+      <div style="width:130px;text-align:center"><image-slot id="search-1" shape="rect" style="width:100%;aspect-ratio:1/1" placeholder="Botella"></image-slot><div style="font-size:13px;margin-top:10px">212 Vip Black Carolina Herrera</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 55%, transparent);font-feature-settings:'tnum' 1">S/. 30.00</div></div>
+      <div style="width:130px;text-align:center"><image-slot id="search-2" shape="rect" style="width:100%;aspect-ratio:1/1" placeholder="Botella"></image-slot><div style="font-size:13px;margin-top:10px">9PM Night Out</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 55%, transparent);font-feature-settings:'tnum' 1">S/. 15.00</div></div>
+      <div style="width:130px;text-align:center"><image-slot id="search-3" shape="rect" style="width:100%;aspect-ratio:1/1" placeholder="Botella"></image-slot><div style="font-size:13px;margin-top:10px">Acqua Di Gio Parfum</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 55%, transparent);font-feature-settings:'tnum' 1">S/. 30.00</div></div>
+      <div style="width:130px;text-align:center"><image-slot id="search-4" shape="rect" style="width:100%;aspect-ratio:1/1" placeholder="Botella"></image-slot><div style="font-size:13px;margin-top:10px">Acqua Di Gio Profondo EDP</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 55%, transparent);font-feature-settings:'tnum' 1">S/. 30.00</div></div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { cat: 'todos', sel: null, selSize: 0, qty: 1, onlyAvail: false, sort: 'none' , searchOpen: false, cart: 0 };
+  cats = [
+    { key: 'todos', label: 'Todos' },
+    { key: 'nicho', label: 'Nicho' },
+    { key: 'disenador', label: 'Diseñador' },
+    { key: 'arabes', label: 'Árabe' },
+    { key: 'damas', label: 'Damas' }
+  ];
+  data = [
+    { id: 'dec-aventus', tag: 'HOT', brand: 'Creed', name: 'Decant Aventus', cat: 'nicho', price: 48, stock: 20, desc: 'Prueba el icónico Aventus en formato decant, sellado y etiquetado al momento.', top: 'Piña, grosella negra, bergamota', heart: 'Abedul, pachulí, jazmín', base: 'Almizcle, roble, vainilla', sizes: [{ ml: '3ml / 50 sprays', price: 48 }, { ml: '5ml / 90 sprays', price: 75 }, { ml: '10ml / 180 sprays', price: 140 }] },
+    { id: 'dec-br540', tag: 'HOT', brand: 'MFK', name: 'Decant Baccarat Rouge 540', cat: 'nicho', price: 52, stock: 14, desc: 'La firma más buscada del mundo en decant, ideal para conocerla antes de invertir.', top: 'Azafrán, jazmín', heart: 'Amberwood, ámbar gris', base: 'Resina de abeto, cedro', sizes: [{ ml: '3ml / 50 sprays', price: 52 }, { ml: '5ml / 90 sprays', price: 82 }, { ml: '10ml / 180 sprays', price: 155 }] },
+    { id: 'dec-erba', brand: 'Xerjoff', name: 'Decant Erba Pura', cat: 'nicho', price: 52, stock: 0, desc: 'Erba Pura en decant: dulzura frutal de lujo en formato de prueba.', top: 'Naranja siciliana, limón', heart: 'Frutas dulces', base: 'Vainilla, almizcle blanco', sizes: [{ ml: '3ml / 50 sprays', price: 52 }, { ml: '5ml / 90 sprays', price: 82 }, { ml: '10ml / 180 sprays', price: 150 }] },
+    { id: 'dec-oud', brand: 'Tom Ford', name: 'Decant Oud Wood', cat: 'disenador', price: 50, stock: 11, desc: 'Oud Wood en decant: elegancia amaderada sin comprometer el presupuesto.', top: 'Oud, palo de rosa, cardamomo', heart: 'Sándalo, vetiver', base: 'Vainilla, ámbar', sizes: [{ ml: '3ml / 50 sprays', price: 50 }, { ml: '5ml / 90 sprays', price: 78 }, { ml: '10ml / 180 sprays', price: 148 }] },
+    { id: 'dec-layton', brand: 'Parfums de Marly', name: 'Decant Layton', cat: 'nicho', price: 50, stock: 16, desc: 'Layton en decant: manzana, lavanda y vainilla en un perfil elegante y aplaudido.', top: 'Manzana, bergamota, lavanda', heart: 'Geranio, jazmín', base: 'Vainilla, sándalo, pimienta', sizes: [{ ml: '3ml / 50 sprays', price: 50 }, { ml: '5ml / 90 sprays', price: 78 }, { ml: '10ml / 180 sprays', price: 145 }] },
+    { id: 'dec-sauvage', tag: 'OFERTA', brand: 'Dior', name: 'Decant Sauvage Elixir', cat: 'disenador', price: 33, stock: 9, desc: 'Sauvage Elixir en decant: especiado y amaderado, de duración descomunal.', top: 'Canela, nuez moscada, pomelo', heart: 'Lavanda', base: 'Regaliz, sándalo, ámbar', sizes: [{ ml: '3ml / 50 sprays', price: 33 }, { ml: '5ml / 90 sprays', price: 52 }, { ml: '10ml / 180 sprays', price: 95 }] },
+    { id: 'dec-delina', brand: 'Parfums de Marly', name: 'Decant Delina', cat: 'damas', price: 55, stock: 3, desc: 'Delina en decant: rosa turca cremosa con lichi, el floral de nicho más elegante.', top: 'Lichi, ruibarbo, bergamota', heart: 'Rosa turca, peonía', base: 'Vainilla, almizcle, incienso', sizes: [{ ml: '3ml / 50 sprays', price: 55 }, { ml: '5ml / 90 sprays', price: 88 }, { ml: '10ml / 180 sprays', price: 165 }] },
+    { id: 'dec-goodgirl', tag: 'OFERTA', brand: 'Carolina Herrera', name: 'Decant Good Girl', cat: 'damas', price: 32, stock: 12, desc: 'Good Girl en decant: el contraste icónico de jazmín y cacao.', top: 'Almendra, café', heart: 'Jazmín sambac, nardo', base: 'Haba tonka, cacao, sándalo', sizes: [{ ml: '3ml / 50 sprays', price: 32 }, { ml: '5ml / 90 sprays', price: 50 }, { ml: '10ml / 180 sprays', price: 92 }] },
+    { id: 'dec-khamrah', tag: 'HOT', brand: 'Lattafa', name: 'Decant Khamrah', cat: 'arabes', price: 12, stock: 22, desc: 'Khamrah en decant: oriental gourmand cálido, especiado y de gran estela.', top: 'Canela, nuez moscada, bergamota', heart: 'Dátiles, praliné, nardo', base: 'Vainilla, haba tonka, benjuí', sizes: [{ ml: '3ml / 50 sprays', price: 12 }, { ml: '5ml / 90 sprays', price: 18 }, { ml: '10ml / 180 sprays', price: 32 }] },
+    { id: 'dec-9pm', tag: 'NUEVO', brand: 'Afnan', name: 'Decant Afnan 9PM', cat: 'arabes', price: 12, stock: 25, desc: '9PM en decant: dulce, amaderado y magnético para salidas nocturnas.', top: 'Manzana, canela, bergamota', heart: 'Lavanda, azahar', base: 'Vainilla, ámbar, pachulí', sizes: [{ ml: '3ml / 50 sprays', price: 12 }, { ml: '5ml / 90 sprays', price: 18 }, { ml: '10ml / 180 sprays', price: 32 }] },
+    { id: 'dec-hawas', tag: 'NUEVO', brand: 'Rasasi', name: 'Decant Hawas Ice', cat: 'arabes', price: 13, stock: 18, desc: 'Hawas Ice en decant: frescura glacial cítrico-acuática de gran rendimiento.', top: 'Pomelo, menta helada', heart: 'Notas acuáticas, cipriol', base: 'Almizcle, ámbar', sizes: [{ ml: '3ml / 50 sprays', price: 13 }, { ml: '5ml / 90 sprays', price: 20 }, { ml: '10ml / 180 sprays', price: 36 }] },
+    { id: 'dec-y', tag: 'NUEVO', brand: 'Yves Saint Laurent', name: 'Decant Y Le Parfum', cat: 'disenador', price: 28, stock: 14, desc: 'Y Le Parfum en decant: fougère moderno con manzana, jengibre y maderas oscuras.', top: 'Manzana, jengibre, bergamota', heart: 'Salvia, lavanda', base: 'Cedro, haba tonka, vetiver', sizes: [{ ml: '3ml / 50 sprays', price: 28 }, { ml: '5ml / 90 sprays', price: 44 }, { ml: '10ml / 180 sprays', price: 82 }] },
+    { id: 'dec-libre', tag: 'OFERTA', brand: 'Yves Saint Laurent', name: 'Decant Libre Intense', cat: 'damas', price: 29, stock: 10, desc: 'Libre Intense en decant: lavanda y azahar sobre vainilla intensa.', top: 'Lavanda, mandarina', heart: 'Azahar, jazmín', base: 'Vainilla de Madagascar, ámbar', sizes: [{ ml: '3ml / 50 sprays', price: 29 }, { ml: '5ml / 90 sprays', price: 46 }, { ml: '10ml / 180 sprays', price: 85 }] }
+  ];
+  tagColor(t) { return t === 'HOT' ? '#9a3324' : t === 'OFERTA' ? '#1a7d38' : '#1b1816'; }
+  fmt(n) { return 'S/. ' + n.toFixed(2); }
+  filtered() {
+    const { cat, onlyAvail, sort } = this.state;
+    let list = cat === 'todos' ? this.data.slice() : this.data.filter(p => p.cat === cat);
+    if (onlyAvail) list = list.filter(p => p.stock > 0);
+    if (sort === 'asc') list = [...list].sort((a, b) => a.price - b.price);
+    if (sort === 'desc') list = [...list].sort((a, b) => b.price - a.price);
+    return list;
+  }
+  renderVals() {
+    const { cat, sel, selSize, qty, onlyAvail, sort } = this.state;
+    const list = this.filtered();
+    const selected = this.data.find(p => p.id === sel) || null;
+    const sizes = selected ? selected.sizes : [];
+    const curSize = sizes[selSize] || sizes[0];
+    const now = new Date();
+    let cut = new Date(now); cut.setHours(18, 0, 0, 0);
+    if (cut <= now) cut.setDate(cut.getDate() + 1);
+    const diff = Math.floor((cut - now) / 60000);
+    const dFmt = d => d.toLocaleDateString('es-PE', { day: 'numeric', month: 'long' });
+    const ship = new Date(now); ship.setDate(ship.getDate() + 1);
+    const deliver = new Date(now); deliver.setDate(deliver.getDate() + 2);
+    const waMsg = selected ? encodeURIComponent('Hola, quiero pedir ' + selected.name + ' — ' + (curSize ? curSize.ml : '') + ' x' + qty + ' (' + (curSize ? this.fmt(curSize.price * qty) : '') + ')') : '';
+    return {
+      cartCount: this.state.cart,
+      hasCart: this.state.cart > 0,
+      cartBtnLabel: 'Añadir al carrito',
+      addToCart: () => this.setState(s => ({ cart: s.cart + s.qty })),
+      count: list.length,
+      tabs: this.cats.map(c => ({
+        label: c.label,
+        color: c.key === cat ? '#ffffff' : 'var(--color-accent-700)',
+        bg: c.key === cat ? 'var(--color-accent)' : 'transparent',
+        select: () => this.setState({ cat: c.key, sel: null })
+      })),
+      items: list.map(p => ({
+        name: p.name, slotId: 'dec-' + p.id, soldOut: p.stock === 0,
+        badge: p.tag || '', badgeBg: this.tagColor(p.tag),
+        imgFilter: p.stock === 0 ? 'grayscale(1)' : 'none',
+        textOpacity: p.stock === 0 ? 0.5 : 1,
+        priceLabel: 'Desde ' + this.fmt(p.price) + ' PEN',
+        open: () => this.setState({ sel: p.id, selSize: 0, qty: 1 })
+      })),
+      selected,
+      selectedSlot: selected ? 'dec-' + selected.id : 'none',
+      thumb1: selected ? 'decdet-' + selected.id + '-1' : 'none1',
+      thumb2: selected ? 'decdet-' + selected.id + '-2' : 'none2',
+      thumb3: selected ? 'decdet-' + selected.id + '-3' : 'none3',
+      sizeOptions: sizes.map((s, i) => ({
+        priceLabel: this.fmt(s.price),
+        ml: s.ml,
+        badge: i === 1,
+        border: i === selSize ? '2px solid #1b1816' : '1px solid var(--color-divider)',
+        dot: i === selSize ? '#1b1816' : 'transparent',
+        select: () => this.setState({ selSize: i })
+      })),
+      qty,
+      qtyMinus: () => this.setState(s => ({ qty: Math.max(1, s.qty - 1) })),
+      qtyPlus: () => this.setState(s => ({ qty: s.qty + 1 })),
+      stockLabel: selected ? (selected.stock > 0 ? 'Disponible · ' + selected.stock + ' unidades' : 'Agotado — consulta reposición') : '',
+      stockTagClass: selected && selected.stock > 0 ? 'tag-accent' : 'tag-neutral',
+      waHref: 'https://wa.me/51987654321?text=' + waMsg,
+      cutoff: String(Math.floor(diff / 60)).padStart(2, '0') + ' h ' + String(diff % 60).padStart(2, '0') + ' min',
+      shipDate: dFmt(ship),
+      deliverDate: dFmt(deliver),
+      availColor: onlyAvail ? 'var(--color-accent-700)' : 'var(--color-text)',
+      toggleAvail: () => this.setState(s => ({ onlyAvail: !s.onlyAvail })),
+      sortLabel: sort === 'none' ? 'Ordenar' : (sort === 'asc' ? 'Precio: menor a mayor' : 'Precio: mayor a menor'),
+      toggleSort: () => this.setState(s => ({ sort: s.sort === 'none' ? 'asc' : s.sort === 'asc' ? 'desc' : 'none' })),
+      close: () => this.setState({ sel: null }),
+      stop: (e) => e.stopPropagation(),
+      prevProd: () => this.nav(-1),
+      nextProd: () => this.nav(1),
+      searchOpen: this.state.searchOpen,
+      openSearch: () => this.setState({ searchOpen: true }),
+      closeSearch: () => this.setState({ searchOpen: false }),
+      stopClick: (e) => e.stopPropagation(),
+    };
+  }
+  nav(dir) {
+    const list = this.filtered();
+    const i = list.findIndex(p => p.id === this.state.sel);
+    if (i < 0) return;
+    const next = list[(i + dir + list.length) % list.length];
+    this.setState({ sel: next.id, selSize: 0, qty: 1 });
+  }
+}
+</script>
+</body>
+</html>

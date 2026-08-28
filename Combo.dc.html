@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/classical-280dc767-045c-4836-a55f-a92fbb1c2a6c/styles.css">
+<script src="_ds/classical-280dc767-045c-4836-a55f-a92fbb1c2a6c/_ds_bundle.js"></script>
+<script src="image-slot.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Manrope:wght@400;600;700&display=swap');
+:root { --font-heading: 'Oswald', system-ui, sans-serif; --font-body: 'Manrope', system-ui, sans-serif; }
+body { background: #ffffff; margin: 0; font-family: var(--font-body); }
+a { color: var(--color-accent-700); text-underline-offset: 3px; }
+a:hover { color: var(--color-accent-600); }
+/* sticky host */
+html, body { height: auto; min-height: 100%; }
+#dc-root, .sc-host { height: auto; min-height: 100%; }
+@keyframes stepIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; } }
+</style>
+</helmet>
+
+<nav class="nav" data-screen-label="Navegación" style="position:sticky;top:0;z-index:60;box-shadow:0 1px 0 rgba(27,24,22,0.10), 0 6px 18px rgba(27,24,22,0.06);padding-inline:max(40px, calc((100% - 1280px) / 2 + 40px)); background:#1b1816;color:#f3f2f2">
+  <a href="Maros Landing.dc.html" class="nav-brand" aria-label="Ir al inicio" style="display:flex;flex-direction:column;line-height:1.1;text-decoration:none;color:#f3f2f2">
+    <span style="font-size:26px;letter-spacing:0.14em">MAROS</span>
+    <span style="font-family:var(--font-body);font-size:9px;letter-spacing:0.26em;text-transform:uppercase;color:var(--color-accent-400)">Perfumes &amp; Decants</span>
+  </a>
+  <a href="Catalogo.dc.html" style="font-size:12.5px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:rgba(243,242,242,0.85)" style-hover="color:var(--color-accent-400)">Catálogo</a>
+  <a href="Decants.dc.html" style="font-size:12.5px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:rgba(243,242,242,0.85)" style-hover="color:var(--color-accent-400)">Decants</a>
+  <a href="Packs.dc.html" style="font-size:12.5px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:rgba(243,242,242,0.85)" style-hover="color:var(--color-accent-400)">Packs de decants</a>
+  <a href="Combo.dc.html" aria-current="page" style="font-size:12.5px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:var(--color-accent-400)">Arma tu combo</a>
+  <a href="Contacto.dc.html" style="font-size:12.5px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:rgba(243,242,242,0.85)" style-hover="color:var(--color-accent-400)">Contacto</a>
+  <div style="display:flex;gap:6px;align-items:center">
+    <button type="button" aria-label="Buscar" onClick="{{ openSearch }}" style="background:none;border:none;padding:6px;cursor:pointer;color:var(--color-accent-400);display:flex" style-hover="color:#f3f2f2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg></button>
+    <button type="button" aria-label="Carrito" style="background:none;border:none;padding:6px;cursor:pointer;color:var(--color-accent-400);display:flex;position:relative" style-hover="color:#f3f2f2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 14H5L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg><sc-if value="{{ hasCart }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-2px;right:-2px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:var(--color-accent);color:#1b1816;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;font-feature-settings:'tnum' 1">{{ cartCount }}</span></sc-if></button>
+  </div>
+</nav>
+
+<header data-screen-label="Arma tu combo — portada" style="background:#000000;color:#f3f2f2">
+  <div style="max-width:1280px;margin:0 auto;padding:52px 40px 46px;text-align:center">
+    <div style="font-size:11.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-400)">Descuento automático</div>
+    <h1 style="font-family:var(--font-heading);font-weight:400;font-size:clamp(38px,4.2vw,56px);line-height:1;letter-spacing:0.04em;text-transform:uppercase;margin:14px 0 0">Arma tu combo</h1>
+    <p style="font-size:15.5px;line-height:1.7;color:rgba(243,242,242,0.7);max-width:56ch;margin:16px auto 0">Elige la categoría, el tamaño y las fragancias que quieres probar. Mientras más decants sumes, mayor es el descuento — y pagas contra entrega.</p>
+  </div>
+</header>
+
+<div style="border-bottom:1px solid var(--color-divider);background:#fbfbfa;position:sticky;top:67px;z-index:40">
+  <div style="max-width:1280px;margin:0 auto;padding:0 40px;display:flex;align-items:stretch;justify-content:center">
+    <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+      <button type="button" onClick="{{ s.go }}" style="flex:1;max-width:320px;display:flex;align-items:center;gap:14px;background:none;border:none;border-bottom:2px solid {{ s.rule }};padding:18px 10px;cursor:{{ s.cursor }};font:inherit;text-align:left;transition:border-color .25s ease">
+        <span style="width:30px;height:30px;flex:none;border-radius:50%;border:1px solid {{ s.dotBorder }};background:{{ s.dotBg }};color:{{ s.dotColor }};display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:13px;font-feature-settings:'tnum' 1">{{ s.n }}</span>
+        <span style="min-width:0">
+          <span style="display:block;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:{{ s.labelColor }}">{{ s.label }}</span>
+          <span style="display:block;font-size:12.5px;color:color-mix(in srgb, var(--color-text) 55%, transparent);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.value }}</span>
+        </span>
+      </button>
+    </sc-for>
+  </div>
+</div>
+
+<div style="max-width:1280px;margin:0 auto;padding:0 40px 80px">
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:36px;align-items:start;padding-top:34px">
+
+    <div style="min-width:0">
+      <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+        <div style="animation:stepIn .35s ease-out both">
+          <h2 style="font-family:var(--font-heading);font-weight:600;font-size:22px;letter-spacing:0.08em;text-transform:uppercase;margin:0">Elige una categoría</h2>
+          <p style="font-size:13px;color:color-mix(in srgb, var(--color-text) 62%, transparent);margin:8px 0 0">Puedes cambiarla en cualquier momento sin perder tu selección.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:20px">
+            <sc-for list="{{ catCards }}" as="c" hint-placeholder-count="4">
+              <button type="button" onClick="{{ c.select }}" class="card" style="text-align:left;font:inherit;cursor:pointer;padding:0;overflow:hidden;gap:0;display:flex;flex-direction:row;align-items:stretch;border-color:{{ c.border }};overflow-wrap:anywhere;transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease, border-color .3s ease" style-hover="transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--color-accent)">
+                <span style="flex:0 0 34%;max-width:132px;min-width:88px;background:#f0efee;display:flex">
+                  <image-slot id="{{ c.slotId }}" shape="rect" style="width:100%;height:100%;min-height:132px" placeholder="{{ c.label }}"></image-slot>
+                </span>
+                <span style="padding:18px 20px;display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;overflow-wrap:anywhere">
+                  <span style="display:block;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 50%, transparent)">{{ c.brands }}</span>
+                  <span style="display:block;font-family:var(--font-heading);font-weight:600;font-size:21px;letter-spacing:0.08em;text-transform:uppercase;margin-top:8px">{{ c.label }}</span>
+                  <span style="display:block;font-size:13px;color:var(--color-accent-700);margin-top:6px;font-feature-settings:'tnum' 1">{{ c.fromLabel }}</span>
+                  <span style="display:block;font-size:12px;color:color-mix(in srgb, var(--color-text) 50%, transparent);margin-top:4px;font-feature-settings:'tnum' 1">{{ c.countLabel }}</span>
+                </span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+        <div style="animation:stepIn .35s ease-out both">
+          <h2 style="font-family:var(--font-heading);font-weight:600;font-size:22px;letter-spacing:0.08em;text-transform:uppercase;margin:0">Elige el tamaño</h2>
+          <p style="font-size:13px;color:color-mix(in srgb, var(--color-text) 62%, transparent);margin:8px 0 0">Todos los decants del combo van en el mismo tamaño.</p>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px">
+            <sc-for list="{{ sizeCards }}" as="s" hint-placeholder-count="3">
+              <button type="button" onClick="{{ s.select }}" style="background:#ffffff;border:{{ s.border }};padding:24px 18px 22px;cursor:pointer;font:inherit;text-align:center;position:relative;transition:border-color .25s ease, transform .3s cubic-bezier(.2,.7,.2,1)" style-hover="border-color:var(--color-accent);transform:translateY(-3px)">
+                <sc-if value="{{ s.popular }}" hint-placeholder-val="{{ false }}">
+                  <span style="position:absolute;top:0;left:0;right:0;background:#1b1816;color:#ffffff;font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 0">Más pedido</span>
+                </sc-if>
+                <div style="font-family:var(--font-heading);font-weight:500;font-size:34px;letter-spacing:0.04em;font-feature-settings:'tnum' 1">{{ s.ml }}</div>
+                <div style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent);margin-top:6px;font-feature-settings:'tnum' 1">{{ s.sprays }}</div>
+                <div style="height:1px;background:var(--color-divider);margin:14px 0"></div>
+                <div style="font-size:13px;font-feature-settings:'tnum' 1">{{ s.fromLabel }}</div>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+        <div style="animation:stepIn .35s ease-out both">
+          <div>
+            <div>
+              <h2 style="font-family:var(--font-heading);font-weight:600;font-size:22px;letter-spacing:0.08em;text-transform:uppercase;margin:0">Elige tus perfumes</h2>
+              <p style="font-size:13px;color:color-mix(in srgb, var(--color-text) 62%, transparent);margin:8px 0 0">{{ pickHint }}</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:20px">
+            <sc-for list="{{ options }}" as="o" hint-placeholder-count="9">
+              <button type="button" onClick="{{ o.toggle }}" style="background:{{ o.bg }};border:{{ o.border }};padding:0;overflow:hidden;cursor:pointer;font:inherit;text-align:left;display:flex;flex-direction:column;transition:border-color .25s ease, transform .3s cubic-bezier(.2,.7,.2,1)" style-hover="border-color:var(--color-accent);transform:translateY(-3px)">
+                <span style="position:relative;display:block;background:#f0efee">
+                  <image-slot id="{{ o.slotId }}" shape="rect" style="width:100%;aspect-ratio:1/1" placeholder="{{ o.name }}"></image-slot>
+                  <span style="position:absolute;top:9px;right:9px;width:22px;height:22px;border-radius:50%;border:1px solid {{ o.markBorder }};background:{{ o.markBg }};color:{{ o.markColor }};display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"></path></svg></span>
+                  <sc-if value="{{ o.badge }}" hint-placeholder-val="{{ false }}">
+                    <span style="position:absolute;top:9px;left:9px;font-size:8.5px;font-weight:700;letter-spacing:0.1em;background:{{ o.badgeBg }};color:#ffffff;padding:3px 7px;border-radius:999px">{{ o.badge }}</span>
+                  </sc-if>
+                </span>
+                <span style="padding:12px 14px 14px;display:block">
+                  <span style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-accent-700)">{{ o.brand }}</span>
+                  <span style="display:block;font-size:13.5px;font-weight:600;margin-top:3px">{{ o.name }}</span>
+                  <span style="display:block;font-size:13px;margin-top:5px;font-feature-settings:'tnum' 1">{{ o.priceLabel }}</span>
+                </span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:28px;border-top:1px solid var(--color-divider);padding-top:20px">
+        <button type="button" onClick="{{ back }}" style="display:flex;align-items:center;gap:8px;background:none;border:none;padding:0;font:inherit;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:{{ backColor }};cursor:{{ backCursor }};pointer-events:{{ backEvents }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="m11 18-6-6 6-6"></path></svg> Atrás</button>
+        <button type="button" onClick="{{ next }}" style="display:flex;align-items:center;gap:8px;background:#1b1816;color:#ffffff;border:none;border-radius:999px;padding:12px 26px;font:inherit;font-size:12.5px;font-weight:600;letter-spacing:0.06em;cursor:{{ nextCursor }};opacity:{{ nextOpacity }};pointer-events:{{ nextEvents }};transition:background .25s ease" style-hover="background:#33302d">{{ nextLabel }} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></button>
+      </div>
+    </div>
+
+    <div class="card" style="padding:0;gap:0;position:sticky;top:150px;overflow:hidden">
+      <div style="background:#1b1816;color:#f3f2f2;padding:18px 22px;display:flex;align-items:baseline;justify-content:space-between">
+        <span style="font-family:var(--font-heading);font-weight:600;font-size:16px;letter-spacing:0.14em;text-transform:uppercase">Tu combo</span>
+        <span style="font-size:12px;color:rgba(243,242,242,0.7);font-feature-settings:'tnum' 1">{{ itemsLabel }}</span>
+      </div>
+
+      <div style="padding:20px 22px 22px">
+        <div style="border:1px solid var(--color-divider);border-left:3px solid var(--color-accent);padding:12px 14px">
+          <div style="font-size:12.5px;font-weight:700;letter-spacing:0.04em;color:var(--color-accent-700);font-feature-settings:'tnum' 1">{{ discountHeadline }}</div>
+          <div style="font-size:11.5px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 62%, transparent);margin-top:3px;font-feature-settings:'tnum' 1">{{ discountHint }}</div>
+        </div>
+
+        <div style="margin-top:16px">
+          <div style="height:4px;background:#eceae7;overflow:hidden">
+            <div style="height:100%;background:var(--color-accent);width:{{ shipPct }};transition:width .4s ease"></div>
+          </div>
+          <div style="font-size:11.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent);margin-top:7px;font-feature-settings:'tnum' 1">{{ shipLabel }}</div>
+        </div>
+
+        <div style="height:1px;background:var(--color-divider);margin:18px 0"></div>
+        <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 45%, transparent)">Seleccionados</div>
+        <sc-if value="{{ hasPicked }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+            <sc-for list="{{ pickedList }}" as="p" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:10px;font-size:13px">
+                <span style="flex:1;min-width:0"><span style="display:block;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 50%, transparent)">{{ p.brand }}</span>{{ p.name }}</span>
+                <span style="font-feature-settings:'tnum' 1;color:color-mix(in srgb, var(--color-text) 62%, transparent);white-space:nowrap">{{ p.priceLabel }}</span>
+                <button type="button" onClick="{{ p.remove }}" aria-label="Quitar" style="background:none;border:none;padding:2px;cursor:pointer;color:color-mix(in srgb, var(--color-text) 40%, transparent);display:flex" style-hover="color:var(--color-text)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ true }}">
+          <div style="font-size:13px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 52%, transparent);margin-top:10px">Ningún perfume seleccionado aún.</div>
+        </sc-if>
+
+        <div style="height:1px;background:var(--color-divider);margin:18px 0"></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:color-mix(in srgb, var(--color-text) 62%, transparent)">Precio sin descuento</span><span style="font-feature-settings:'tnum' 1">{{ subtotalLabel }}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-top:8px;color:{{ discountColor }}"><span>Descuento combo {{ discountLabel }}</span><span style="font-feature-settings:'tnum' 1;white-space:nowrap">{{ savingLabel }}</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;border-top:1px solid var(--color-divider);padding-top:16px"><span style="font-size:12.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase">Total a pagar</span><span style="font-family:var(--font-heading);font-size:30px;font-weight:500;font-feature-settings:'tnum' 1">{{ totalLabel }}</span></div>
+
+        <button type="button" onClick="{{ addToCart }}" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:18px;height:46px;background:#1b1816;color:#ffffff;border:none;border-radius:999px;font:inherit;font-size:13px;font-weight:600;cursor:{{ ctaCursor }};opacity:{{ ctaOpacity }};pointer-events:{{ ctaEvents }};transition:background .25s ease" style-hover="background:#33302d"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 14H5L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg> {{ ctaLabel }}</button>
+        <a href="{{ waHref }}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;height:44px;background:#ffffff;color:#1b1816;border:1.5px solid #1b1816;border-radius:999px;font-size:13px;font-weight:600;text-decoration:none;pointer-events:{{ ctaEvents }};opacity:{{ ctaOpacity }}" style-hover="background:#f6f5f4"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.5 8.5 0 1 1 16.1-3.8Z"></path></svg> Pedir por WhatsApp</a>
+        <div style="margin-top:12px;background:#22a447;color:#ffffff;display:flex;align-items:center;justify-content:center;gap:7px;padding:7px 12px;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:0.08em"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="m9 12 2 2 4-4"></path></svg> PAGO CONTRA ENTREGA · PREVIO ADELANTO</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid var(--color-divider);margin-top:8px;padding-top:32px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px">
+    <div>
+      <div style="font-family:var(--font-heading);font-size:12.5px;letter-spacing:0.18em;color:var(--color-accent-700);font-feature-settings:'tnum' 1">2 – 3 DECANTS</div>
+      <div style="font-family:var(--font-heading);font-weight:600;font-size:17px;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px">10% de descuento</div>
+      <p style="font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 68%, transparent);margin:8px 0 0">El punto de partida: dos fragancias para comparar en la misma semana.</p>
+    </div>
+    <div>
+      <div style="font-family:var(--font-heading);font-size:12.5px;letter-spacing:0.18em;color:var(--color-accent-700);font-feature-settings:'tnum' 1">4 – 5 DECANTS</div>
+      <div style="font-family:var(--font-heading);font-weight:600;font-size:17px;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px">15% de descuento</div>
+      <p style="font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 68%, transparent);margin:8px 0 0">El combo más pedido: cubre día, oficina y noche con un solo pedido.</p>
+    </div>
+    <div>
+      <div style="font-family:var(--font-heading);font-size:12.5px;letter-spacing:0.18em;color:var(--color-accent-700);font-feature-settings:'tnum' 1">6 O MÁS</div>
+      <div style="font-family:var(--font-heading);font-weight:600;font-size:17px;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px">20% de descuento</div>
+      <p style="font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 68%, transparent);margin:8px 0 0">Para armar tu colección de bolsillo o repartir entre varios.</p>
+    </div>
+  </div>
+</div>
+
+<a href="https://wa.me/51987654321" aria-label="Escríbenos por WhatsApp" style="position:fixed;right:24px;bottom:24px;width:56px;height:56px;border-radius:50%;background:#25d366;color:#ffffff;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-lg);z-index:50" style-hover="background:#1fb958"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.5 8.5 0 1 1 16.1-3.8Z"></path></svg></a>
+
+<sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;background:rgba(27,24,22,0.55);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding-top:14vh" onClick="{{ closeSearch }}">
+  <div style="background:#ffffff;width:min(760px, 92vw);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);padding:34px 40px" onClick="{{ stopClick }}">
+    <div style="display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--color-divider);padding-bottom:20px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" style="color:color-mix(in srgb, var(--color-text) 55%, transparent)"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+      <input type="text" placeholder="Buscar" autoFocus="{{ true }}" style="flex:1 1 0;min-width:0;border:none;outline:none;font-size:20px;font-family:var(--font-body);color:var(--color-text)"></input>
+      <button type="button" class="btn btn-ghost btn-icon" aria-label="Cerrar" onClick="{{ closeSearch }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="M6 6l12 12"></path></svg></button>
+    </div>
+    <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent);margin-top:26px;text-align:center">Productos</div>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;margin-top:20px;justify-content:center">
+      <div style="width:130px;text-align:center"><image-slot id="search-1" shape="rect" style="width:100%;aspect-ratio:1/1" placeholder="Botella"></image-slot><div style="font-size:13px;margin-top:10px">212 Vip Black Carolina Herrera</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 55%, transparent);font-feature-settings:'tnum' 1">S/. 30.00</div></div>
+      <div style="width:130px;text-align:center"><image-slot id="search-2" shape="rect" style="width:100%;aspect-ratio:1/1" placeholder="Botella"></image-slot><div style="font-size:13px;margin-top:10px">9PM Night Out</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 55%, transparent);font-feature-settings:'tnum' 1">S/. 15.00</div></div>
+      <div style="width:130px;text-align:center"><image-slot id="search-3" shape="rect" style="width:100%;aspect-ratio:1/1" placeholder="Botella"></image-slot><div style="font-size:13px;margin-top:10px">Acqua Di Gio Parfum</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 55%, transparent);font-feature-settings:'tnum' 1">S/. 30.00</div></div>
+      <div style="width:130px;text-align:center"><image-slot id="search-4" shape="rect" style="width:100%;aspect-ratio:1/1" placeholder="Botella"></image-slot><div style="font-size:13px;margin-top:10px">Acqua Di Gio Profondo EDP</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 55%, transparent);font-feature-settings:'tnum' 1">S/. 30.00</div></div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;minCombo&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2,&quot;min&quot;:2,&quot;max&quot;:6,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Combo&quot;},&quot;freeShipping&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:200,&quot;min&quot;:0,&quot;max&quot;:500,&quot;step&quot;:10,&quot;unit&quot;:&quot;S/.&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Combo&quot;},&quot;whatsapp&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;51987654321&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contacto&quot;}}">
+class Component extends DCLogic {
+  state = { step: 1, cat: null, size: null, picked: [], cart: 0, searchOpen: false };
+  sizes = [
+    { ml: '3 ml', mult: 1, sprays: 'aprox. 50 aplicaciones' },
+    { ml: '5 ml', mult: 1.55, sprays: 'aprox. 90 aplicaciones' },
+    { ml: '10 ml', mult: 2.85, sprays: 'aprox. 180 aplicaciones' }
+  ];
+  cats = [
+    { key: 'nicho', label: 'Nicho', brands: 'Creed · Xerjoff · MFK · Initio' },
+    { key: 'disenador', label: 'Diseñador', brands: 'Dior · Tom Ford · Saint Laurent' },
+    { key: 'arabes', label: 'Árabes', brands: 'Lattafa · Rasasi · Afnan · Armaf' },
+    { key: 'damas', label: 'Damas', brands: 'PDM · Carolina Herrera · YSL' }
+  ];
+  testers = [
+    { id: 'khamrah', brand: 'Lattafa', name: 'Khamrah', cat: 'arabes', price: 12, tag: 'HOT' },
+    { id: 'qahwa', brand: 'Lattafa', name: 'Khamrah Qahwa', cat: 'arabes', price: 13, tag: '' },
+    { id: 'asad', brand: 'Lattafa', name: 'Asad', cat: 'arabes', price: 13, tag: '' },
+    { id: '9pm', brand: 'Afnan', name: '9PM', cat: 'arabes', price: 12, tag: 'HOT' },
+    { id: '9pm-elixir', brand: 'Afnan', name: '9PM Elixir', cat: 'arabes', price: 14, tag: 'NUEVO' },
+    { id: 'hawas-ice', brand: 'Rasasi', name: 'Hawas Ice', cat: 'arabes', price: 13, tag: 'NUEVO' },
+    { id: 'oddysey', brand: 'Armaf', name: 'Oddysey Aqua', cat: 'arabes', price: 12, tag: '' },
+    { id: 'mandarin', brand: 'Armaf', name: 'Mandarin Sky', cat: 'arabes', price: 12, tag: 'OFERTA' },
+    { id: 'sauvage-elixir', brand: 'Dior', name: 'Sauvage Elixir', cat: 'disenador', price: 33, tag: 'OFERTA' },
+    { id: 'y-parfum', brand: 'Saint Laurent', name: 'Y Le Parfum', cat: 'disenador', price: 28, tag: 'NUEVO' },
+    { id: '212vip', brand: 'Carolina Herrera', name: '212 VIP Black', cat: 'disenador', price: 25, tag: '' },
+    { id: 'oud-wood', brand: 'Tom Ford', name: 'Oud Wood', cat: 'disenador', price: 50, tag: 'HOT' },
+    { id: 'aventus', brand: 'Creed', name: 'Aventus', cat: 'nicho', price: 48, tag: 'HOT' },
+    { id: 'br540', brand: 'MFK', name: 'Baccarat Rouge 540', cat: 'nicho', price: 52, tag: 'HOT' },
+    { id: 'erba', brand: 'Xerjoff', name: 'Erba Pura', cat: 'nicho', price: 52, tag: '' },
+    { id: 'layton', brand: 'Parfums de Marly', name: 'Layton', cat: 'nicho', price: 50, tag: '' },
+    { id: 'side-effect', brand: 'Initio', name: 'Side Effect', cat: 'nicho', price: 45, tag: 'NUEVO' },
+    { id: 'delina', brand: 'Parfums de Marly', name: 'Delina', cat: 'damas', price: 55, tag: 'NUEVO' },
+    { id: 'goodgirl', brand: 'Carolina Herrera', name: 'Good Girl', cat: 'damas', price: 32, tag: 'HOT' },
+    { id: 'blush', brand: 'Carolina Herrera', name: 'Good Girl Blush', cat: 'damas', price: 33, tag: '' },
+    { id: 'libre', brand: 'Saint Laurent', name: 'Libre Intense', cat: 'damas', price: 29, tag: 'OFERTA' }
+  ];
+  fmt(n) { return 'S/. ' + n.toFixed(2); }
+  tagColor(t) { return t === 'HOT' ? '#9a3324' : t === 'OFERTA' ? '#1a7d38' : '#1b1816'; }
+  tester(id) { return this.testers.find(t => t.id === id); }
+  tier(n) {
+    const min = this.props.minCombo ?? 2;
+    if (n < min) return 0;
+    if (n <= 3) return 10;
+    if (n <= 5) return 15;
+    return 20;
+  }
+  renderVals() {
+    const { step, cat, size, picked } = this.state;
+    const ship = this.props.freeShipping ?? 200;
+    const min = this.props.minCombo ?? 2;
+    const wa = this.props.whatsapp ?? '51987654321';
+    const sz = size === null ? this.sizes[0] : this.sizes[size];
+    const unit = t => Math.round(t.price * sz.mult);
+    const catDef = this.cats.find(c => c.key === cat) || null;
+    const list = cat ? this.testers.filter(t => t.cat === cat) : [];
+    const pickedItems = picked.map(id => this.tester(id)).filter(Boolean);
+    const n = pickedItems.length;
+    const subtotal = pickedItems.reduce((a, t) => a + unit(t), 0);
+    const pct = this.tier(n);
+    const saving = Math.round(subtotal * pct / 100);
+    const total = subtotal - saving;
+    const missing = Math.max(0, ship - total);
+    const stepDef = [
+      { n: '1', label: 'Categoría', value: catDef ? catDef.label : 'Sin elegir', to: 1, on: true },
+      { n: '2', label: 'Tamaño', value: size === null ? 'Sin elegir' : this.sizes[size].ml, to: 2, on: !!cat },
+      { n: '3', label: 'Perfumes', value: n ? n + (n === 1 ? ' elegido' : ' elegidos') : 'Sin elegir', to: 3, on: !!cat && size !== null }
+    ];
+    const canNext = step === 1 ? !!cat : step === 2 ? size !== null : n >= min;
+    const msg = encodeURIComponent('Hola, armé mi combo de decants (' + sz.ml + '): ' + pickedItems.map(t => t.brand + ' ' + t.name).join(', ') + '. Total ' + this.fmt(total) + ' con ' + pct + '% de descuento y pago contra entrega.');
+    return {
+      cartCount: this.state.cart,
+      hasCart: this.state.cart > 0,
+      steps: stepDef.map(s => ({
+        n: s.n, label: s.label, value: s.value,
+        rule: step === s.to ? 'var(--color-accent)' : 'transparent',
+        dotBg: step === s.to ? 'var(--color-accent)' : '#ffffff',
+        dotColor: step === s.to ? '#ffffff' : (s.on ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 35%, transparent)'),
+        dotBorder: s.on ? 'var(--color-accent)' : 'var(--color-divider)',
+        labelColor: step === s.to ? 'var(--color-accent-700)' : (s.on ? 'var(--color-text)' : 'color-mix(in srgb, var(--color-text) 40%, transparent)'),
+        cursor: s.on ? 'pointer' : 'not-allowed',
+        go: () => { if (s.on) this.setState({ step: s.to }); }
+      })),
+      isStep1: step === 1,
+      isStep2: step === 2,
+      isStep3: step === 3,
+      catCards: this.cats.map(c => {
+        const items = this.testers.filter(t => t.cat === c.key);
+        const from = Math.min(...items.map(t => t.price));
+        return {
+          label: c.label, brands: c.brands,
+          slotId: 'combo-cat-' + c.key,
+          fromLabel: 'Desde ' + this.fmt(from),
+          countLabel: items.length + ' fragancias disponibles',
+          border: cat === c.key ? 'var(--color-accent)' : 'var(--color-border, var(--color-divider))',
+          select: () => this.setState({ cat: c.key, step: 2 })
+        };
+      }),
+      sizeCards: this.sizes.map((s, i) => {
+        const items = cat ? this.testers.filter(t => t.cat === cat) : this.testers;
+        const from = Math.round(Math.min(...items.map(t => t.price)) * s.mult);
+        return {
+          ml: s.ml, sprays: s.sprays, popular: i === 0,
+          fromLabel: 'Desde ' + this.fmt(from) + ' por decant',
+          border: size === i ? '2px solid var(--color-accent)' : '1px solid var(--color-divider)',
+          select: () => this.setState({ size: i, step: 3 })
+        };
+      }),
+      catChips: this.cats.map(c => ({
+        label: c.label,
+        bg: cat === c.key ? 'var(--color-accent)' : 'transparent',
+        color: cat === c.key ? '#ffffff' : 'var(--color-accent-700)',
+        select: () => this.setState({ cat: c.key })
+      })),
+      pickHint: n >= min ? 'Descuento del ' + pct + '% aplicado. Sigue sumando para llegar al siguiente tramo.' : 'Selecciona mínimo ' + min + ' fragancias para activar el descuento.',
+      options: list.map(t => {
+        const on = picked.includes(t.id);
+        return {
+          brand: t.brand, name: t.name,
+          slotId: 'combo-' + t.id,
+          priceLabel: this.fmt(unit(t)),
+          badge: t.tag || '',
+          badgeBg: this.tagColor(t.tag),
+          bg: on ? '#faf7f1' : '#ffffff',
+          border: on ? '1.5px solid var(--color-accent)' : '1px solid var(--color-divider)',
+          markBg: on ? 'var(--color-accent)' : '#ffffff',
+          markColor: on ? '#ffffff' : 'transparent',
+          markBorder: on ? 'var(--color-accent)' : 'var(--color-divider)',
+          toggle: () => this.setState(s => ({ picked: s.picked.includes(t.id) ? s.picked.filter(x => x !== t.id) : [...s.picked, t.id] }))
+        };
+      }),
+      itemsLabel: n + (n === 1 ? ' item' : ' items'),
+      discountHeadline: pct ? 'Ahorras ' + this.fmt(saving) + ' con el combo' : 'Aún sin descuento',
+      discountHint: pct ? (pct < 20 ? 'Suma ' + (n <= 3 ? (4 - n) : (6 - n)) + ' decant(s) más y sube al ' + (n <= 3 ? '15' : '20') + '%.' : 'Estás en el descuento máximo del 20%.') : 'Selecciona ' + (min - n) + ' fragancia(s) más para activar el 10%.',
+      shipPct: Math.min(100, ship ? Math.round(total / ship * 100) : 100) + '%',
+      shipLabel: missing > 0 ? 'Agrega ' + this.fmt(missing) + ' para envío gratis' : 'Envío gratis conseguido',
+      pickedList: pickedItems.map(t => ({
+        brand: t.brand, name: t.name,
+        priceLabel: this.fmt(unit(t)),
+        remove: () => this.setState(s => ({ picked: s.picked.filter(x => x !== t.id) }))
+      })),
+      hasPicked: n > 0,
+      isEmpty: n === 0,
+      subtotalLabel: this.fmt(subtotal),
+      discountLabel: pct ? '−' + pct + '%' : '',
+      discountColor: pct ? '#1a7d38' : 'color-mix(in srgb, var(--color-text) 45%, transparent)',
+      savingLabel: pct ? '− ' + this.fmt(saving) : this.fmt(0),
+      totalLabel: this.fmt(total),
+      ctaLabel: n >= min ? 'Añadir al carrito' : 'Elige ' + (min - n) + ' fragancia(s)',
+      ctaCursor: n >= min ? 'pointer' : 'not-allowed',
+      ctaEvents: n >= min ? 'auto' : 'none',
+      ctaOpacity: n >= min ? 1 : 0.5,
+      addToCart: () => this.setState(s => ({ cart: s.cart + s.picked.length })),
+      waHref: 'https://wa.me/' + wa + '?text=' + msg,
+      back: () => this.setState(s => ({ step: Math.max(1, s.step - 1) })),
+      backColor: step > 1 ? 'var(--color-text)' : 'color-mix(in srgb, var(--color-text) 30%, transparent)',
+      backCursor: step > 1 ? 'pointer' : 'not-allowed',
+      backEvents: step > 1 ? 'auto' : 'none',
+      next: () => { if (step < 3) this.setState({ step: step + 1 }); },
+      nextLabel: step === 1 ? 'Continuar al tamaño' : step === 2 ? 'Elegir perfumes' : 'Combo listo',
+      nextCursor: canNext && step < 3 ? 'pointer' : 'not-allowed',
+      nextEvents: canNext && step < 3 ? 'auto' : 'none',
+      nextOpacity: canNext && step < 3 ? 1 : 0.45,
+      searchOpen: this.state.searchOpen,
+      openSearch: () => this.setState({ searchOpen: true }),
+      closeSearch: () => this.setState({ searchOpen: false }),
+      stopClick: (e) => e.stopPropagation()
+    };
+  }
+}
+
+</script>
+</body>
+</html>
