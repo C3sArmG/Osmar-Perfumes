@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/classical-280dc767-045c-4836-a55f-a92fbb1c2a6c/styles.css">
+<script src="_ds/classical-280dc767-045c-4836-a55f-a92fbb1c2a6c/_ds_bundle.js"></script>
+<style>
+  body { margin: 0; background: var(--color-bg); }
+  input, select, textarea { font-family: var(--font-body); font-size: 14px; color: var(--color-text); background: #fff; border: 1px solid var(--color-divider); border-radius: var(--radius-md); padding: 8px 10px; width: 100%; box-sizing: border-box; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  button { font-family: var(--font-body); cursor: pointer; }
+  a { color: var(--color-accent-700); text-decoration: none; }
+  a:hover { color: var(--color-accent); text-decoration: underline; }
+  ::selection { background: var(--color-accent-200); }
+</style>
+</helmet>
+
+<sc-if value="{{ showLogin }}" hint-placeholder-val="{{ false }}">
+  <div style="min-height: 100vh; display: grid; place-items: center; background: var(--color-neutral-900); font-family: var(--font-body);">
+    <div style="width: 380px; background: var(--color-bg); border: 1px solid var(--color-divider); border-radius: var(--radius-lg); padding: 36.8px; box-shadow: var(--shadow-lg);">
+      <div style="font-family: var(--font-heading); font-size: 15px; letter-spacing: 0.38em; text-transform: uppercase; color: var(--color-accent-700); font-feature-settings: 'tnum';">Maros</div>
+      <h1 style="font-family: var(--font-heading); font-weight: 400; font-size: 34px; margin: 9.2px 0 4.6px; color: var(--color-text);">Panel de administración</h1>
+      <p style="margin: 0 0 27.6px; font-size: 14px; line-height: 1.6; color: var(--color-neutral-600);">Ingresa para actualizar productos, precios y el orden de la tienda.</p>
+      <div style="display: grid; gap: 13.8px;">
+        <label style="display: grid; gap: 4.6px; font-size: 13px; color: var(--color-neutral-700);">Usuario
+          <input value="{{ user }}" onChange="{{ onUser }}" placeholder="admin" autocomplete="username">
+        </label>
+        <label style="display: grid; gap: 4.6px; font-size: 13px; color: var(--color-neutral-700);">Contraseña
+          <input type="password" value="{{ pass }}" onChange="{{ onPass }}" onKeyDown="{{ onLoginKey }}" autocomplete="current-password">
+        </label>
+      </div>
+      <sc-if value="{{ loginError }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top: 13.8px; font-size: 13px; color: #8c2f2f;">Usuario o contraseña incorrectos.</div>
+      </sc-if>
+      <button onClick="{{ onLogin }}" style="margin-top: 27.6px; width: 100%; padding: 12px; background: transparent; border: 1px solid var(--color-accent); border-radius: var(--radius-md); color: var(--color-accent-700); font-family: var(--font-heading); font-size: 16px; letter-spacing: 0.06em;" style-hover="background: var(--color-accent-100);" style-active="border-color: var(--color-accent-600); color: var(--color-accent-800);">Entrar</button>
+      <div style="margin-top: 18.4px; padding-top: 13.8px; border-top: 1px solid var(--color-divider); font-size: 12px; color: var(--color-neutral-500);">Demostración — usuario <strong style="font-weight: 600;">admin</strong>, contraseña <strong style="font-weight: 600;">maros2026</strong></div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ authed }}" hint-placeholder-val="{{ true }}">
+<div style="min-height: 100vh; display: grid; grid-template-columns: 232px 1fr; font-family: var(--font-body); color: var(--color-text); background: var(--color-bg);">
+
+  <aside style="background: var(--color-neutral-900); padding: 27.6px 0; display: flex; flex-direction: column; gap: 27.6px; position: sticky; top: 0; height: 100vh; box-sizing: border-box;">
+    <div style="padding: 0 27.6px;">
+      <div style="font-family: var(--font-heading); font-size: 13px; letter-spacing: 0.38em; text-transform: uppercase; color: var(--color-accent);">Maros</div>
+      <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-neutral-500); margin-top: 4.6px;">Administración</div>
+    </div>
+    <nav style="display: flex; flex-direction: column;">
+      <sc-for list="{{ nav }}" as="item" hint-placeholder-count="7">
+        <button onClick="{{ item.go }}" style="{{ item.style }}" style-hover="color: #fff;">
+          <span>{{ item.label }}</span>
+          <span style="font-size: 11px; color: var(--color-neutral-500); font-feature-settings: 'tnum';">{{ item.count }}</span>
+        </button>
+      </sc-for>
+    </nav>
+    <div style="margin-top: auto; padding: 0 27.6px; display: grid; gap: 9.2px;">
+      <a href="Maros Landing.dc.html" style="font-size: 12px; color: var(--color-neutral-400);" style-hover="color: var(--color-accent);">Ver la tienda →</a>
+      <button onClick="{{ onLogout }}" style="text-align: left; background: none; border: 0; padding: 0; font-size: 12px; color: var(--color-neutral-500);" style-hover="color: var(--color-accent);">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <div style="display: grid; grid-template-columns: minmax(600px, 1fr) auto; align-items: start; min-width: 0;">
+    <main style="{{ mainStyle }}">
+
+      <header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 27.6px; padding-bottom: 18.4px; border-bottom: 1px solid var(--color-divider);">
+        <div>
+          <h1 style="font-family: var(--font-heading); font-weight: 400; font-size: 38px; margin: 0; line-height: 1.1;">{{ title }}</h1>
+          <p style="margin: 4.6px 0 0; font-size: 14px; color: var(--color-neutral-600);">{{ subtitle }}</p>
+        </div>
+        <sc-if value="{{ showNew }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ onNew }}" style="flex: none; padding: 10px 18.4px; background: transparent; border: 1px solid var(--color-accent); border-radius: var(--radius-md); color: var(--color-accent-700); font-family: var(--font-heading); font-size: 15px; letter-spacing: 0.04em;" style-hover="background: var(--color-accent-100);" style-active="border-color: var(--color-accent-600);">{{ newLabel }}</button>
+        </sc-if>
+      </header>
+
+      <sc-if value="{{ isProducts }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 18.4px; margin: 18.4px 0; flex-wrap: wrap;">
+          <div style="display: flex; gap: 9.2px; flex-wrap: wrap;">
+            <sc-for list="{{ lineTabs }}" as="lt" hint-placeholder-count="5">
+              <button onClick="{{ lt.go }}" style="{{ lt.style }}">{{ lt.label }}</button>
+            </sc-for>
+          </div>
+          <div style="width: 260px;">
+            <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="Buscar por nombre o marca">
+          </div>
+        </div>
+
+        <div style="border: 1px solid var(--color-divider); border-radius: var(--radius-md); background: #fff; overflow-x: auto;">
+          <div style="min-width: 960px; display: grid; grid-template-columns: 56px minmax(190px, 2fr) minmax(90px, 1fr) 60px 60px 62px 74px 70px 96px; gap: 13.8px; padding: 11px 18.4px; border-bottom: 1px solid var(--color-divider); background: var(--color-neutral-100); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-600);">
+            <span></span><span>Perfume</span><span>Línea</span><span style="text-align: right;">3 ml</span><span style="text-align: right;">5 ml</span><span style="text-align: right;">10 ml</span><span style="text-align: right;">Frasco</span><span style="text-align: right;">Stock</span><span>Etiqueta</span>
+          </div>
+          <sc-for list="{{ rows }}" as="p" hint-placeholder-count="6">
+            <div onClick="{{ p.edit }}" style="{{ p.rowStyle }}" style-hover="background: var(--color-accent-100);">
+              <div style="width: 40px; height: 48px; border: 1px solid var(--color-divider); border-radius: var(--radius-sm); overflow: hidden; background: var(--color-neutral-100);">
+                <sc-if value="{{ p.img }}" hint-placeholder-val="{{ false }}">
+                  <img src="{{ p.img }}" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </sc-if>
+              </div>
+              <div style="min-width: 0;">
+                <div style="font-family: var(--font-heading); font-size: 19px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ p.nombre }}</div>
+                <div style="font-size: 12px; color: var(--color-neutral-600); margin-top: 2px;">{{ p.marca }}</div>
+              </div>
+              <div style="font-size: 13px; color: var(--color-neutral-700);">{{ p.linea }}</div>
+              <div style="text-align: right; font-size: 14px; font-feature-settings: 'tnum';">{{ p.p3 }}</div>
+              <div style="text-align: right; font-size: 14px; font-feature-settings: 'tnum';">{{ p.p5 }}</div>
+              <div style="text-align: right; font-size: 14px; font-feature-settings: 'tnum';">{{ p.p10 }}</div>
+              <div style="text-align: right; font-size: 14px; font-feature-settings: 'tnum';">{{ p.pFrasco }}</div>
+              <div style="{{ p.stockStyle }}">{{ p.stock }}</div>
+              <div>
+                <sc-if value="{{ p.etiqueta }}" hint-placeholder-val="{{ false }}">
+                  <span style="{{ p.tagStyle }}">{{ p.etiqueta }}</span>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 36.8px; text-align: center; font-size: 14px; color: var(--color-neutral-600);">No hay perfumes que coincidan con la búsqueda.</div>
+          </sc-if>
+        </div>
+        <p style="margin: 13.8px 0 0; font-size: 13px; color: var(--color-neutral-600);">Haz clic en cualquier fila para editarla. Un mismo perfume puede venderse en decants, en frasco completo o en ambos — se marca dentro de la ficha.</p>
+      </sc-if>
+
+      <sc-if value="{{ isTop }}" hint-placeholder-val="{{ false }}">
+        <p style="margin: 18.4px 0; font-size: 14px; color: var(--color-neutral-600); max-width: 62ch;">Arrastra las tarjetas para cambiar el orden. Lo que veas aquí es el orden exacto en que aparecen en la tienda.</p>
+        <div style="display: grid; gap: 9.2px; max-width: 760px;">
+          <sc-for list="{{ top }}" as="t" hint-placeholder-count="10">
+            <div draggable="true" onDragStart="{{ t.dragStart }}" onDragOver="{{ t.dragOver }}" onDragEnd="{{ t.dragEnd }}" onDrop="{{ t.drop }}" style="{{ t.style }}">
+              <div style="font-family: var(--font-heading); font-size: 26px; width: 42px; text-align: center; color: var(--color-accent-700); font-feature-settings: 'tnum';">{{ t.pos }}</div>
+              <div style="width: 34px; height: 42px; border: 1px solid var(--color-divider); border-radius: var(--radius-sm); overflow: hidden; background: var(--color-neutral-100); flex: none;">
+                <sc-if value="{{ t.img }}" hint-placeholder-val="{{ false }}">
+                  <img src="{{ t.img }}" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </sc-if>
+              </div>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-family: var(--font-heading); font-size: 20px; line-height: 1.2;">{{ t.nombre }}</div>
+                <div style="font-size: 12px; color: var(--color-neutral-600);">{{ t.marca }}</div>
+              </div>
+              <div style="display: flex; gap: 4.6px; align-items: center;">
+                <button onClick="{{ t.up }}" title="Subir" style="width: 30px; height: 30px; border: 1px solid var(--color-divider); background: #fff; border-radius: var(--radius-sm); color: var(--color-neutral-700); font-size: 13px;" style-hover="border-color: var(--color-accent); color: var(--color-accent-700);">↑</button>
+                <button onClick="{{ t.down }}" title="Bajar" style="width: 30px; height: 30px; border: 1px solid var(--color-divider); background: #fff; border-radius: var(--radius-sm); color: var(--color-neutral-700); font-size: 13px;" style-hover="border-color: var(--color-accent); color: var(--color-accent-700);">↓</button>
+                <button onClick="{{ t.remove }}" title="Quitar del top" style="width: 30px; height: 30px; border: 1px solid var(--color-divider); background: #fff; border-radius: var(--radius-sm); color: var(--color-neutral-600); font-size: 15px;" style-hover="border-color: #8c2f2f; color: #8c2f2f;">×</button>
+              </div>
+              <div style="cursor: grab; color: var(--color-neutral-400); font-size: 15px; letter-spacing: 2px; padding-left: 4.6px;">⋮⋮</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top: 27.6px; display: flex; align-items: center; gap: 13.8px; max-width: 760px;">
+          <select value="{{ addTopId }}" onChange="{{ onAddTopSelect }}" style="flex: 1;">
+            <option value="">Añadir un perfume al Top 10 (solo con decant)…</option>
+            <sc-for list="{{ topCandidates }}" as="c" hint-placeholder-count="4">
+              <option value="{{ c.id }}">{{ c.label }}</option>
+            </sc-for>
+          </select>
+          <button onClick="{{ onAddTop }}" style="flex: none; padding: 9px 18.4px; background: transparent; border: 1px solid var(--color-accent); border-radius: var(--radius-md); color: var(--color-accent-700); font-family: var(--font-heading); font-size: 15px;" style-hover="background: var(--color-accent-100);">Añadir</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isPacks }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 18.4px; margin: 18.4px 0; flex-wrap: wrap;">
+          <div style="display: flex; gap: 9.2px; flex-wrap: wrap;">
+            <sc-for list="{{ packTabs }}" as="pt" hint-placeholder-count="6">
+              <button onClick="{{ pt.go }}" style="{{ pt.style }}">{{ pt.label }}</button>
+            </sc-for>
+          </div>
+          <label style="display: flex; align-items: center; gap: 9.2px; font-size: 13px; color: var(--color-neutral-600);">Descuento de los packs listos
+            <input type="number" value="{{ packDiscountGlobal }}" onChange="{{ setPackDiscount }}" style="width: 70px;">%
+          </label>
+        </div>
+
+        <sc-if value="{{ packDraft }}" hint-placeholder-val="{{ false }}">
+          <div style="border: 1px solid var(--color-accent); border-radius: var(--radius-md); background: #fff; padding: 18.4px 22px; margin-bottom: 22px; display: grid; gap: 13.8px; box-shadow: var(--shadow-md);">
+            <div style="font-family: var(--font-heading); font-size: 20px; color: var(--color-accent-700);">Nuevo pack</div>
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 9.2px;">
+              <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Nombre del pack
+                <input value="{{ pd.nombre }}" onChange="{{ pdh.nombre }}" placeholder="p. ej. Pack Verano">
+              </label>
+              <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Tipo
+                <select value="{{ pd.tipo }}" onChange="{{ pdh.tipo }}">
+                  <option value="Mixto">Mixto</option>
+                  <sc-for list="{{ lineaOpts }}" as="l" hint-placeholder-count="4">
+                    <option value="{{ l }}">{{ l }}</option>
+                  </sc-for>
+                </select>
+              </label>
+              <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Etiqueta
+                <select value="{{ pd.etiqueta }}" onChange="{{ pdh.etiqueta }}">
+                  <option value="">Ninguna</option>
+                  <option value="HOT">HOT</option>
+                  <option value="NUEVO">NUEVO</option>
+                  <option value="OFERTA">OFERTA</option>
+                </select>
+              </label>
+            </div>
+            <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Subtítulo
+              <input value="{{ pd.subtitulo }}" onChange="{{ pdh.subtitulo }}">
+            </label>
+            <div>
+              <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-600); margin-bottom: 9.2px;">Imágenes (mínimo 3)</div>
+              <div style="display: grid; gap: 9.2px;">
+                <sc-for list="{{ draftImagenesRows }}" as="im" hint-placeholder-count="3">
+                  <div style="display: grid; gap: 4.6px;">
+                    <div style="display: flex; gap: 9.2px; align-items: flex-start;">
+                      <label onDragOver="{{ im.onDragOver }}" onDrop="{{ im.onDrop }}" style="{{ im.dropStyle }}">
+                        <input type="file" accept="image/*" onChange="{{ im.onFileChange }}" style="display: none;">
+                        <sc-if value="{{ im.url }}" hint-placeholder-val="{{ false }}">
+                          <img src="{{ im.url }}" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                        </sc-if>
+                        <sc-if value="{{ im.empty }}" hint-placeholder-val="{{ true }}">
+                          <span style="font-size: 11px; color: var(--color-neutral-500); text-align: center; padding: 0 6px;">Foto {{ im.n }} — arrastra o haz clic</span>
+                        </sc-if>
+                      </label>
+                      <sc-if value="{{ im.removable }}" hint-placeholder-val="{{ false }}">
+                        <button onClick="{{ im.remove }}" title="Quitar" style="flex: none; width: 28px; height: 28px; border: 1px solid var(--color-divider); background: #fff; border-radius: var(--radius-sm); color: var(--color-neutral-600); font-size: 14px;" style-hover="border-color: #8c2f2f; color: #8c2f2f;">×</button>
+                      </sc-if>
+                    </div>
+                    <input value="{{ im.url }}" onChange="{{ im.onChange }}" placeholder="o pega un enlace de imagen" style="font-size: 12px; padding: 6px 10px;">
+                  </div>
+                </sc-for>
+              </div>
+              <button onClick="{{ onAddDraftPackImage }}" style="margin-top: 9.2px; background: none; border: 0; padding: 0; font-size: 13px; color: var(--color-accent-700);" style-hover="color: var(--color-accent);">+ Añadir otra imagen</button>
+            </div>
+            <div>
+              <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-600); margin-bottom: 9.2px;">Perfumes incluidos (solo decants)</div>
+              <div style="max-height: 190px; overflow-y: auto; border: 1px solid var(--color-divider); border-radius: var(--radius-sm); padding: 9.2px 11px; display: grid; gap: 6px;">
+                <sc-for list="{{ draftOpciones }}" as="op" hint-placeholder-count="6">
+                  <label style="display: flex; align-items: center; gap: 9.2px; font-size: 13px;">
+                    <input type="checkbox" checked="{{ op.on }}" onChange="{{ op.toggle }}" style="width: auto;">
+                    {{ op.label }}
+                  </label>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display: flex; gap: 9.2px;">
+              <button onClick="{{ onSavePack }}" style="flex: 1; padding: 11px; background: transparent; border: 1px solid var(--color-accent); border-radius: var(--radius-md); color: var(--color-accent-700); font-family: var(--font-heading); font-size: 16px;" style-hover="background: var(--color-accent-100);">Añadir</button>
+              <button onClick="{{ onCancelPack }}" style="flex: none; padding: 11px 18.4px; background: transparent; border: 1px solid var(--color-divider); border-radius: var(--radius-md); color: var(--color-neutral-700); font-family: var(--font-heading); font-size: 16px;" style-hover="border-color: var(--color-neutral-500);">Cancelar</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="{{ packsGridStyle }}">
+          <sc-for list="{{ packCards }}" as="k" hint-placeholder-count="3">
+            <div style="border: 1px solid var(--color-divider); border-radius: var(--radius-md); background: #fff; padding: 18.4px; display: grid; gap: 13.8px;">
+              <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 9.2px;">
+                <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Nombre del pack
+                  <input value="{{ k.nombre }}" onChange="{{ k.setNombre }}">
+                </label>
+                <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Tipo
+                  <select value="{{ k.tipo }}" onChange="{{ k.setTipo }}">
+                    <option value="Mixto">Mixto</option>
+                    <sc-for list="{{ lineaOpts }}" as="l" hint-placeholder-count="4">
+                      <option value="{{ l }}">{{ l }}</option>
+                    </sc-for>
+                  </select>
+                </label>
+                <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Etiqueta
+                  <select value="{{ k.etiqueta }}" onChange="{{ k.setEtiqueta }}">
+                    <option value="">Ninguna</option>
+                    <option value="HOT">HOT</option>
+                    <option value="NUEVO">NUEVO</option>
+                    <option value="OFERTA">OFERTA</option>
+                  </select>
+                </label>
+              </div>
+              <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Subtítulo
+                <input value="{{ k.subtitulo }}" onChange="{{ k.setSubtitulo }}">
+              </label>
+              <div>
+                <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-600); margin-bottom: 9.2px;">Imágenes (mínimo 3)</div>
+                <div style="display: grid; gap: 9.2px;">
+                  <sc-for list="{{ k.imagenesRows }}" as="im" hint-placeholder-count="3">
+                    <div style="display: grid; gap: 4.6px;">
+                      <div style="display: flex; gap: 9.2px; align-items: flex-start;">
+                        <label onDragOver="{{ im.onDragOver }}" onDrop="{{ im.onDrop }}" style="{{ im.dropStyle }}">
+                          <input type="file" accept="image/*" onChange="{{ im.onFileChange }}" style="display: none;">
+                          <sc-if value="{{ im.url }}" hint-placeholder-val="{{ false }}">
+                            <img src="{{ im.url }}" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                          </sc-if>
+                          <sc-if value="{{ im.empty }}" hint-placeholder-val="{{ true }}">
+                            <span style="font-size: 11px; color: var(--color-neutral-500); text-align: center; padding: 0 6px;">Foto {{ im.n }} — arrastra o haz clic</span>
+                          </sc-if>
+                        </label>
+                        <sc-if value="{{ im.removable }}" hint-placeholder-val="{{ false }}">
+                          <button onClick="{{ im.remove }}" title="Quitar" style="flex: none; width: 28px; height: 28px; border: 1px solid var(--color-divider); background: #fff; border-radius: var(--radius-sm); color: var(--color-neutral-600); font-size: 14px;" style-hover="border-color: #8c2f2f; color: #8c2f2f;">×</button>
+                        </sc-if>
+                      </div>
+                      <input value="{{ im.url }}" onChange="{{ im.onChange }}" placeholder="o pega un enlace de imagen" style="font-size: 12px; padding: 6px 10px;">
+                    </div>
+                  </sc-for>
+                </div>
+                <button onClick="{{ k.addImage }}" style="margin-top: 9.2px; background: none; border: 0; padding: 0; font-size: 13px; color: var(--color-accent-700);" style-hover="color: var(--color-accent);">+ Añadir otra imagen</button>
+              </div>
+              <div>
+                <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-600); margin-bottom: 9.2px;">Perfumes incluidos (solo decants)</div>
+                <div style="max-height: 190px; overflow-y: auto; border: 1px solid var(--color-divider); border-radius: var(--radius-sm); padding: 9.2px 11px; display: grid; gap: 6px;">
+                  <sc-for list="{{ k.opciones }}" as="op" hint-placeholder-count="6">
+                    <label style="display: flex; align-items: center; gap: 9.2px; font-size: 13px;">
+                      <input type="checkbox" checked="{{ op.on }}" onChange="{{ op.toggle }}" style="width: auto;">
+                      {{ op.label }}
+                    </label>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 9.2px; border-top: 1px solid var(--color-divider);">
+                <span style="font-size: 12px; color: var(--color-neutral-600);">{{ k.resumen }}</span>
+                <button onClick="{{ k.remove }}" style="background: none; border: 0; padding: 0; font-size: 12px; color: var(--color-neutral-600);" style-hover="color: #8c2f2f;">Eliminar</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isAjustes }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top: 18.4px; display: grid; gap: 36.8px; max-width: 900px;">
+
+        <div style="max-width: 560px;">
+          <div style="font-family: var(--font-heading); font-size: 24px; margin-bottom: 13.8px;">Líneas y categorías</div>
+          <div style="border: 1px solid var(--color-divider); border-radius: var(--radius-md); background: #fff;">
+          <sc-for list="{{ cats }}" as="c" hint-placeholder-count="4">
+            <div style="display: flex; align-items: center; gap: 13.8px; padding: 13.8px 18.4px; border-bottom: 1px solid var(--color-divider);">
+              <input value="{{ c.nombre }}" onChange="{{ c.setNombre }}" style="border-color: transparent; background: transparent; font-family: var(--font-heading); font-size: 20px; padding: 4px 6px;" style-hover="border-color: var(--color-divider); background: #fff;">
+              <span style="flex: none; font-size: 12px; color: var(--color-neutral-600); font-feature-settings: 'tnum';">{{ c.count }}</span>
+              <button onClick="{{ c.remove }}" style="flex: none; background: none; border: 0; font-size: 12px; color: var(--color-neutral-600);" style-hover="color: #8c2f2f;">Eliminar</button>
+            </div>
+          </sc-for>
+          <div style="display: flex; gap: 9.2px; padding: 13.8px 18.4px;">
+            <input value="{{ newCat }}" onChange="{{ onNewCat }}" placeholder="Nueva línea (p. ej. Unisex)">
+            <button onClick="{{ onAddCat }}" style="flex: none; padding: 8px 16px; background: transparent; border: 1px solid var(--color-accent); border-radius: var(--radius-md); color: var(--color-accent-700); font-family: var(--font-heading);" style-hover="background: var(--color-accent-100);">Añadir</button>
+          </div>
+          </div>
+          <p style="margin: 13.8px 0 0; font-size: 13px; color: var(--color-neutral-600);">Renombrar una línea la actualiza en todos sus perfumes. Solo se pueden eliminar las líneas sin perfumes asignados.</p>
+        </div>
+
+        <div style="border: 1px solid var(--color-divider); border-radius: var(--radius-md); background: #fff; padding: 18.4px 22px; display: grid; gap: 13.8px; max-width: 560px;">
+          <div style="font-family: var(--font-heading); font-size: 24px;">Contacto</div>
+          <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Teléfono / WhatsApp
+            <input value="{{ contacto.telefono }}" onChange="{{ setTelefono }}">
+          </label>
+          <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Correo de contacto
+            <input value="{{ contacto.correo }}" onChange="{{ setCorreo }}">
+          </label>
+        </div>
+
+        <div style="border: 1px solid var(--color-divider); border-radius: var(--radius-md); background: #fff; padding: 18.4px 22px; display: grid; gap: 13.8px; max-width: 560px;">
+          <div style="font-family: var(--font-heading); font-size: 24px;">Redes sociales</div>
+          <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Instagram (URL)
+            <input value="{{ redes.instagram }}" onChange="{{ setInstagram }}" placeholder="https://instagram.com/…">
+          </label>
+          <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">TikTok (URL)
+            <input value="{{ redes.tiktok }}" onChange="{{ setTiktok }}" placeholder="https://tiktok.com/@…">
+          </label>
+          <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Facebook (URL)
+            <input value="{{ redes.facebook }}" onChange="{{ setFacebook }}" placeholder="https://facebook.com/…">
+          </label>
+          <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">WhatsApp (URL wa.me)
+            <input value="{{ redes.whatsapp }}" onChange="{{ setWhatsapp }}" placeholder="https://wa.me/51…">
+          </label>
+          <p style="margin: 0; font-size: 12px; color: var(--color-neutral-600);">Estos enlaces alimentan los íconos de contacto de la tienda.</p>
+        </div>
+
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isCombo }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width: 620px; margin-top: 18.4px; display: grid; gap: 27.6px;">
+          <div style="border: 1px solid var(--color-divider); border-radius: var(--radius-md); background: #fff; padding: 18.4px 22px;">
+            <div style="font-family: var(--font-heading); font-size: 22px; margin-bottom: 13.8px;">Descuentos por cantidad</div>
+            <sc-for list="{{ tramos }}" as="t" hint-placeholder-count="3">
+              <div style="display: grid; gap: 9.2px; padding-bottom: 18.4px; border-bottom: 1px solid var(--color-divider); margin-bottom: 13.8px;">
+                <div style="display: grid; grid-template-columns: 1fr 110px 110px; gap: 13.8px; align-items: end;">
+                  <div style="font-size: 14px; color: var(--color-neutral-700);">{{ t.label }}</div>
+                  <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Desde (unid.)
+                    <input type="number" value="{{ t.min }}" onChange="{{ t.setMin }}">
+                  </label>
+                  <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Descuento %
+                    <input type="number" value="{{ t.pct }}" onChange="{{ t.setPct }}">
+                  </label>
+                </div>
+                <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Texto que se muestra en la tienda
+                  <input value="{{ t.descripcion }}" onChange="{{ t.setDescripcion }}">
+                </label>
+              </div>
+            </sc-for>
+            <p style="margin: 0; font-size: 12px; color: var(--color-neutral-600);">Este es el mismo descuento por tramos que ve el cliente al armar su combo.</p>
+          </div>
+          <div style="border: 1px solid var(--color-divider); border-radius: var(--radius-md); background: #fff; padding: 18.4px 22px; display: grid; gap: 13.8px;">
+            <div style="font-family: var(--font-heading); font-size: 22px;">Tamaños disponibles en el combo</div>
+            <div style="display: flex; gap: 18.4px;">
+              <sc-for list="{{ tamanos }}" as="s" hint-placeholder-count="3">
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+                  <input type="checkbox" checked="{{ s.on }}" onChange="{{ s.toggle }}" style="width: auto;">
+                  {{ s.label }}
+                </label>
+              </sc-for>
+            </div>
+          </div>
+          <div style="border: 1px solid var(--color-divider); border-radius: var(--radius-md); background: #fff; padding: 18.4px 22px; display: grid; gap: 13.8px;">
+            <div style="font-family: var(--font-heading); font-size: 22px;">Categorías del combo</div>
+            <p style="margin: 0; font-size: 12px; color: var(--color-neutral-600);">Las mismas líneas de Ajustes. Aquí solo defines qué marcas destacadas se muestran en cada tarjeta.</p>
+            <sc-for list="{{ marcas }}" as="m" hint-placeholder-count="4">
+              <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">{{ m.linea }}
+                <input value="{{ m.marcas }}" onChange="{{ m.setMarcas }}" placeholder="Marca · Marca · Marca">
+              </label>
+            </sc-for>
+          </div>
+          <p style="margin: 0; font-size: 13px; color: var(--color-neutral-600);">Los perfumes que se pueden elegir en cada categoría son los que tengan «Disponible en Arma tu combo» activado, dentro de su ficha en Perfumes o Decants.</p>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isPedidos }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top: 18.4px; border: 1px solid var(--color-divider); border-radius: var(--radius-md); background: #fff; overflow: hidden;">
+          <div style="display: grid; grid-template-columns: 90px 1.4fr 2fr 100px 150px; gap: 13.8px; padding: 11px 18.4px; background: var(--color-neutral-100); border-bottom: 1px solid var(--color-divider); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-600);">
+            <span>Pedido</span><span>Cliente</span><span>Contenido</span><span style="text-align: right;">Total</span><span>Estado</span>
+          </div>
+          <sc-for list="{{ pedidos }}" as="o" hint-placeholder-count="4">
+            <div style="display: grid; grid-template-columns: 90px 1.4fr 2fr 100px 150px; gap: 13.8px; padding: 13.8px 18.4px; border-bottom: 1px solid var(--color-divider); align-items: center; font-size: 14px;">
+              <span style="font-feature-settings: 'tnum'; color: var(--color-neutral-600);">{{ o.id }}</span>
+              <span>{{ o.cliente }}</span>
+              <span style="font-size: 13px; color: var(--color-neutral-700);">{{ o.items }}</span>
+              <span style="text-align: right; font-feature-settings: 'tnum';">{{ o.total }}</span>
+              <select value="{{ o.estado }}" onChange="{{ o.setEstado }}">
+                <option value="Nuevo">Nuevo</option>
+                <option value="Preparando">Preparando</option>
+                <option value="En camino">En camino</option>
+                <option value="Entregado">Entregado</option>
+              </select>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isInicio }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width: 620px; margin-top: 18.4px; display: grid; gap: 18.4px;">
+          <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Titular del hero
+            <input value="{{ inicio.titular }}" onChange="{{ setTitular }}">
+          </label>
+          <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Bajada
+            <textarea rows="3" value="{{ inicio.bajada }}" onChange="{{ setBajada }}"></textarea>
+          </label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 13.8px;">
+            <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Texto del botón
+              <input value="{{ inicio.cta }}" onChange="{{ setCta }}">
+            </label>
+            <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Aviso de la cinta superior
+              <input value="{{ inicio.aviso }}" onChange="{{ setAviso }}">
+            </label>
+          </div>
+          <div style="border: 1px solid var(--color-divider); border-radius: var(--radius-md); background: var(--color-neutral-900); padding: 36.8px; text-align: center;">
+            <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-accent);">{{ inicio.aviso }}</div>
+            <div style="font-family: var(--font-heading); font-weight: 400; font-size: 40px; line-height: 1.1; color: #f7f5f1; margin: 18.4px 0 9.2px;">{{ inicio.titular }}</div>
+            <div style="font-size: 14px; line-height: 1.7; color: var(--color-neutral-400); max-width: 42ch; margin: 0 auto;">{{ inicio.bajada }}</div>
+            <div style="display: inline-block; margin-top: 22px; padding: 10px 27.6px; border: 1px solid var(--color-accent); border-radius: var(--radius-md); color: var(--color-accent); font-family: var(--font-heading); font-size: 15px;">{{ inicio.cta }}</div>
+          </div>
+          <p style="margin: 0; font-size: 13px; color: var(--color-neutral-600);">Vista previa aproximada del inicio de la tienda.</p>
+
+          <div style="border-top: 1px solid var(--color-divider); padding-top: 22px; margin-top: 4.6px;">
+            <div style="font-family: var(--font-heading); font-size: 22px; margin-bottom: 9.2px;">Imagen del banner principal</div>
+            <label onDragOver="{{ onHeroImgDragOver }}" onDrop="{{ onHeroImgDrop }}" style="{{ heroDropStyle }}">
+              <input type="file" accept="image/*" onChange="{{ onHeroFileChange }}" style="display: none;">
+              <sc-if value="{{ inicio.heroImagen }}" hint-placeholder-val="{{ false }}">
+                <img src="{{ inicio.heroImagen }}" alt="" style="max-height: 100px; max-width: 100%; object-fit: contain; display: block; margin: 0 auto;">
+              </sc-if>
+              <sc-if value="{{ noHeroImg }}" hint-placeholder-val="{{ true }}">
+                <div style="font-size: 13px; color: var(--color-neutral-400); line-height: 1.6; text-align: center;">Arrastra aquí la foto del banner o haz clic<br><span style="font-size: 12px; color: var(--color-neutral-500);">(o pega un enlace abajo)</span></div>
+              </sc-if>
+            </label>
+            <input value="{{ inicio.heroImagen }}" onChange="{{ setHeroImagen }}" placeholder="o pega un enlace de imagen" style="margin-top: 9.2px; font-size: 12px;">
+          </div>
+
+          <div style="border-top: 1px solid var(--color-divider); padding-top: 22px; margin-top: 4.6px; display: grid; gap: 13.8px;">
+            <div style="font-family: var(--font-heading); font-size: 22px;">Banners de cada sección</div>
+            <p style="margin: 0; font-size: 13px; color: var(--color-neutral-600);">El texto pequeño y el subtítulo que aparecen sobre el título de cada página.</p>
+            <sc-for list="{{ banners }}" as="b" hint-placeholder-count="5">
+              <div style="border: 1px solid var(--color-divider); border-radius: var(--radius-md); padding: 13.8px 18.4px; display: grid; gap: 9.2px;">
+                <div style="font-size: 13px; font-weight: 600; color: var(--color-neutral-700);">{{ b.label }}</div>
+                <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Texto pequeño (kicker)
+                  <input value="{{ b.kicker }}" onChange="{{ b.setKicker }}">
+                </label>
+                <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Subtítulo
+                  <textarea rows="2" value="{{ b.subtitulo }}" onChange="{{ b.setSubtitulo }}"></textarea>
+                </label>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+    </main>
+
+    <sc-if value="{{ panelOpen }}" hint-placeholder-val="{{ false }}">
+      <aside style="width: 400px; align-self: stretch; border-left: 1px solid var(--color-divider); background: #fff; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;">
+        <div style="padding: 22px 27.6px; border-bottom: 1px solid var(--color-divider); display: flex; align-items: flex-start; justify-content: space-between; gap: 13.8px; position: sticky; top: 0; background: #fff;">
+          <div>
+            <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-neutral-500);">{{ panelKicker }}</div>
+            <div style="font-family: var(--font-heading); font-size: 26px; line-height: 1.15; margin-top: 4px;">{{ panelTitle }}</div>
+          </div>
+          <button onClick="{{ onCancel }}" title="Cerrar" style="flex: none; width: 30px; height: 30px; border: 1px solid var(--color-divider); background: #fff; border-radius: var(--radius-sm); color: var(--color-neutral-600); font-size: 16px;" style-hover="border-color: var(--color-accent); color: var(--color-accent-700);">×</button>
+        </div>
+
+        <div style="padding: 22px 27.6px 27.6px; display: grid; gap: 18.4px;">
+          <div>
+            <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-600); margin-bottom: 9.2px;">Imágenes (mínimo 3)</div>
+            <div style="display: grid; gap: 9.2px;">
+              <sc-for list="{{ imagenesRows }}" as="im" hint-placeholder-count="3">
+                <div style="display: grid; gap: 4.6px;">
+                  <div style="display: flex; gap: 9.2px; align-items: flex-start;">
+                    <label onDragOver="{{ im.onDragOver }}" onDrop="{{ im.onDrop }}" style="{{ im.dropStyle }}">
+                      <input type="file" accept="image/*" onChange="{{ im.onFileChange }}" style="display: none;">
+                      <sc-if value="{{ im.url }}" hint-placeholder-val="{{ false }}">
+                        <img src="{{ im.url }}" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                      </sc-if>
+                      <sc-if value="{{ im.empty }}" hint-placeholder-val="{{ true }}">
+                        <span style="font-size: 11px; color: var(--color-neutral-500); text-align: center; padding: 0 6px;">Foto {{ im.n }} — arrastra o haz clic</span>
+                      </sc-if>
+                    </label>
+                    <sc-if value="{{ im.removable }}" hint-placeholder-val="{{ false }}">
+                      <button onClick="{{ im.remove }}" title="Quitar" style="flex: none; width: 28px; height: 28px; border: 1px solid var(--color-divider); background: #fff; border-radius: var(--radius-sm); color: var(--color-neutral-600); font-size: 14px;" style-hover="border-color: #8c2f2f; color: #8c2f2f;">×</button>
+                    </sc-if>
+                  </div>
+                  <input value="{{ im.url }}" onChange="{{ im.onChange }}" placeholder="o pega un enlace de imagen" style="font-size: 12px; padding: 6px 10px;">
+                </div>
+              </sc-for>
+            </div>
+            <button onClick="{{ onAddImage }}" style="margin-top: 9.2px; background: none; border: 0; padding: 0; font-size: 13px; color: var(--color-accent-700);" style-hover="color: var(--color-accent);">+ Añadir otra imagen</button>
+          </div>
+
+          <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Nombre del perfume
+            <input value="{{ d.nombre }}" onChange="{{ h.nombre }}" placeholder="p. ej. Khamrah">
+          </label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 13.8px;">
+            <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Marca / casa
+              <input value="{{ d.marca }}" onChange="{{ h.marca }}">
+            </label>
+            <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Línea
+              <select value="{{ d.linea }}" onChange="{{ h.linea }}">
+                <sc-for list="{{ lineaOpts }}" as="l" hint-placeholder-count="4">
+                  <option value="{{ l }}">{{ l }}</option>
+                </sc-for>
+              </select>
+            </label>
+          </div>
+
+          <div style="border-top: 1px solid var(--color-divider); padding-top: 18.4px;">
+            <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-600); margin-bottom: 11px;">Precios por tamaño ({{ moneda }})</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 9.2px;">
+              <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">3 ml
+                <input type="number" value="{{ d.p3 }}" onChange="{{ h.p3 }}">
+              </label>
+              <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">5 ml
+                <input type="number" value="{{ d.p5 }}" onChange="{{ h.p5 }}">
+              </label>
+              <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">10 ml
+                <input type="number" value="{{ d.p10 }}" onChange="{{ h.p10 }}">
+              </label>
+            </div>
+            <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600); margin-top: 9.2px;">Frasco completo (100 ml)
+              <input type="number" value="{{ d.pFrasco }}" onChange="{{ h.pFrasco }}" placeholder="Vacío si no se vende en frasco">
+            </label>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 13.8px;">
+            <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Stock (ml)
+              <input type="number" value="{{ d.stock }}" onChange="{{ h.stock }}">
+            </label>
+            <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Etiqueta
+              <select value="{{ d.etiqueta }}" onChange="{{ h.etiqueta }}">
+                <option value="">Sin etiqueta</option>
+                <option value="HOT">HOT</option>
+                <option value="NUEVO">NUEVO</option>
+                <option value="OFERTA">OFERTA</option>
+              </select>
+            </label>
+          </div>
+
+          <label style="display: grid; gap: 4.6px; font-size: 12px; color: var(--color-neutral-600);">Notas olfativas
+            <textarea rows="3" value="{{ d.notas }}" onChange="{{ h.notas }}" placeholder="Canela, dátil, vainilla, tonka"></textarea>
+          </label>
+
+          <div style="border-top: 1px solid var(--color-divider); padding-top: 18.4px; display: grid; gap: 11px;">
+            <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-neutral-600);">Dónde se muestra</div>
+            <label style="display: flex; align-items: center; gap: 9.2px; font-size: 14px;">
+              <input type="checkbox" checked="{{ d.enDecants }}" onChange="{{ h.enDecants }}" style="width: auto;">
+              Página de decants
+            </label>
+            <label style="display: flex; align-items: center; gap: 9.2px; font-size: 14px;">
+              <input type="checkbox" checked="{{ d.enCatalogo }}" onChange="{{ h.enCatalogo }}" style="width: auto;">
+              Catálogo (frasco completo)
+            </label>
+            <label style="display: flex; align-items: center; gap: 9.2px; font-size: 14px;">
+              <input type="checkbox" checked="{{ d.enCombo }}" onChange="{{ h.enCombo }}" style="width: auto;">
+              Disponible en «Arma tu combo»
+            </label>
+          </div>
+
+          <div style="display: flex; gap: 9.2px; padding-top: 9.2px;">
+            <button onClick="{{ onSave }}" style="flex: 1; padding: 11px; background: transparent; border: 1px solid var(--color-accent); border-radius: var(--radius-md); color: var(--color-accent-700); font-family: var(--font-heading); font-size: 16px;" style-hover="background: var(--color-accent-100);" style-active="border-color: var(--color-accent-600);">Guardar</button>
+            <button onClick="{{ onCancel }}" style="flex: none; padding: 11px 18.4px; background: transparent; border: 1px solid var(--color-divider); border-radius: var(--radius-md); color: var(--color-neutral-700); font-family: var(--font-heading); font-size: 16px;" style-hover="border-color: var(--color-neutral-500);">Cancelar</button>
+          </div>
+          <sc-if value="{{ canDelete }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ onAskDelete }}" style="background: none; border: 0; padding: 0; font-size: 13px; color: var(--color-neutral-600); text-align: left;" style-hover="color: #8c2f2f;">Eliminar este perfume</button>
+          </sc-if>
+        </div>
+      </aside>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ confirming }}" hint-placeholder-val="{{ false }}">
+  <div style="position: fixed; inset: 0; background: color-mix(in srgb, #201f1d 52%, transparent); display: grid; place-items: center; z-index: 60; font-family: var(--font-body);">
+    <div style="width: 400px; background: var(--color-bg); border: 1px solid var(--color-divider); border-radius: var(--radius-lg); padding: 27.6px; box-shadow: var(--shadow-lg);">
+      <div style="font-family: var(--font-heading); font-size: 26px; line-height: 1.2;">¿Eliminar «{{ confirmName }}»?</div>
+      <p style="font-size: 14px; line-height: 1.7; color: var(--color-neutral-700); margin: 11px 0 22px;">Se quitará del catálogo, de decants, del combo y del Top 10. Esta acción no se puede deshacer.</p>
+      <div style="display: flex; gap: 9.2px; justify-content: flex-end;">
+        <button onClick="{{ onCancelDelete }}" style="padding: 10px 18.4px; background: transparent; border: 1px solid var(--color-divider); border-radius: var(--radius-md); color: var(--color-neutral-700); font-family: var(--font-heading); font-size: 15px;" style-hover="border-color: var(--color-neutral-500);">Conservar</button>
+        <button onClick="{{ onConfirmDelete }}" style="padding: 10px 18.4px; background: transparent; border: 1px solid #8c2f2f; border-radius: var(--radius-md); color: #8c2f2f; font-family: var(--font-heading); font-size: 15px;" style-hover="background: color-mix(in srgb, #8c2f2f 8%, transparent);">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div style="position: fixed; bottom: 27.6px; left: 50%; transform: translateX(-50%); background: var(--color-neutral-900); color: #f7f5f1; padding: 11px 22px; border-radius: var(--radius-md); font-family: var(--font-body); font-size: 14px; box-shadow: var(--shadow-lg); z-index: 70;">{{ toast }}</div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;moneda&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;S/. &quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Tienda&quot;},&quot;requiereLogin&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Acceso&quot;},&quot;filasCompactas&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Tabla&quot;}}">
+const KEY = 'maros:admin:v4';
+
+const SEED = {
+  products: [
+    { id: 'khamrah', nombre: 'Khamrah', marca: 'Lattafa', linea: 'Árabe', p3: 12, p5: 18, p10: 32, pFrasco: 15, stock: 22, etiqueta: 'HOT', notas: 'Canela, dátil, vainilla, tonka', imagenes: [], enDecants: true, enCatalogo: true, enCombo: true },
+    { id: 'khamrah-waha', nombre: 'Khamrah Waha', marca: 'Lattafa', linea: 'Árabe', p3: '', p5: '', p10: '', pFrasco: 15, stock: 8, etiqueta: '', notas: 'Piña, manzana, jazmín, almizcle', imagenes: [], enDecants: false, enCatalogo: true, enCombo: false },
+    { id: 'khamrah-qahwa', nombre: 'Khamrah Qahwa', marca: 'Lattafa', linea: 'Árabe', p3: '', p5: '', p10: '', pFrasco: 15, stock: 5, etiqueta: '', notas: 'Café, cardamomo, canela, vainilla', imagenes: [], enDecants: false, enCatalogo: true, enCombo: false },
+    { id: 'mandarin-sky', nombre: 'Mandarin Sky', marca: 'Armaf', linea: 'Árabe', p3: '', p5: '', p10: '', pFrasco: 15, stock: 0, etiqueta: 'OFERTA', notas: 'Mandarina, lavanda, ámbar gris', imagenes: [], enDecants: false, enCatalogo: true, enCombo: false },
+    { id: 'odyssey-aqua', nombre: 'Oddysey Aqua', marca: 'Armaf', linea: 'Árabe', p3: '', p5: '', p10: '', pFrasco: 15, stock: 10, etiqueta: '', notas: 'Notas marinas, jazmín, ámbar', imagenes: [], enDecants: false, enCatalogo: true, enCombo: false },
+    { id: 'hawas-ice', nombre: 'Rasasi Hawas Ice', marca: 'Rasasi', linea: 'Árabe', p3: 13, p5: 20, p10: 36, pFrasco: 15, stock: 18, etiqueta: '', notas: 'Pomelo, menta helada, almizcle', imagenes: [], enDecants: true, enCatalogo: true, enCombo: true },
+    { id: 'hawas-fire', nombre: 'Rasasi Hawas Fire', marca: 'Rasasi', linea: 'Árabe', p3: '', p5: '', p10: '', pFrasco: 15, stock: 4, etiqueta: '', notas: 'Piña, canela, ámbar, vainilla', imagenes: [], enDecants: false, enCatalogo: true, enCombo: false },
+    { id: '9pm-night', nombre: '9PM Night Out', marca: 'Afnan', linea: 'Árabe', p3: '', p5: '', p10: '', pFrasco: 15, stock: 9, etiqueta: '', notas: 'Manzana, lavanda, vainilla, pachulí', imagenes: [], enDecants: false, enCatalogo: true, enCombo: false },
+    { id: '9pm', nombre: 'Afnan 9PM', marca: 'Afnan', linea: 'Árabe', p3: 12, p5: 18, p10: 32, pFrasco: 15, stock: 25, etiqueta: 'HOT', notas: 'Manzana, canela, vainilla, ámbar', imagenes: [], enDecants: true, enCatalogo: true, enCombo: true },
+    { id: '9am-dive', nombre: 'Afnan 9AM Dive', marca: 'Afnan', linea: 'Árabe', p3: '', p5: '', p10: '', pFrasco: 15, stock: 6, etiqueta: '', notas: 'Notas marinas, jazmín acuático', imagenes: [], enDecants: false, enCatalogo: true, enCombo: false },
+    { id: 'aventus', nombre: 'Creed Aventus', marca: 'Creed', linea: 'Nicho', p3: 48, p5: 75, p10: 140, pFrasco: 1450, stock: 20, etiqueta: 'HOT', notas: 'Piña, abedul, pachulí, roble', imagenes: [], enDecants: true, enCatalogo: true, enCombo: true },
+    { id: 'erba-pura', nombre: 'Xerjoff Erba Pura', marca: 'Xerjoff', linea: 'Nicho', p3: 52, p5: 82, p10: 150, pFrasco: 980, stock: 14, etiqueta: '', notas: 'Naranja siciliana, vainilla, almizcle', imagenes: [], enDecants: true, enCatalogo: true, enCombo: true },
+    { id: 'side-effect', nombre: 'Initio Side Effect', marca: 'Initio', linea: 'Nicho', p3: '', p5: '', p10: '', pFrasco: 1350, stock: 0, etiqueta: '', notas: 'Tabaco, ron, vainilla, cuero', imagenes: [], enDecants: false, enCatalogo: true, enCombo: false },
+    { id: 'br540', nombre: 'Baccarat Rouge 540', marca: 'Maison Francis Kurkdjian', linea: 'Nicho', p3: 52, p5: 82, p10: 155, pFrasco: 1550, stock: 14, etiqueta: 'HOT', notas: 'Azafrán, jazmín, ámbar gris, cedro', imagenes: [], enDecants: true, enCatalogo: true, enCombo: true },
+    { id: 'layton', nombre: 'Parfums de Marly Layton', marca: 'Parfums de Marly', linea: 'Nicho', p3: 50, p5: 78, p10: 145, pFrasco: '', stock: 16, etiqueta: '', notas: 'Manzana, lavanda, vainilla, sándalo', imagenes: [], enDecants: true, enCatalogo: false, enCombo: true },
+    { id: 'oud-wood', nombre: 'Tom Ford Oud Wood', marca: 'Tom Ford', linea: 'Diseñador', p3: 50, p5: 78, p10: 148, pFrasco: 1200, stock: 11, etiqueta: '', notas: 'Oud, sándalo, vetiver, vainilla', imagenes: [], enDecants: true, enCatalogo: true, enCombo: true },
+    { id: 'sauvage-elixir', nombre: 'Sauvage Elixir', marca: 'Dior', linea: 'Diseñador', p3: 33, p5: 52, p10: 95, pFrasco: 850, stock: 9, etiqueta: 'OFERTA', notas: 'Canela, lavanda, regaliz, sándalo', imagenes: [], enDecants: true, enCatalogo: true, enCombo: true },
+    { id: 'y-le-parfum', nombre: 'Y Le Parfum', marca: 'Yves Saint Laurent', linea: 'Diseñador', p3: 28, p5: 44, p10: 82, pFrasco: 620, stock: 14, etiqueta: 'NUEVO', notas: 'Manzana, jengibre, cedro, vetiver', imagenes: [], enDecants: true, enCatalogo: true, enCombo: true },
+    { id: 'libre', nombre: 'YSL Libre Intense', marca: 'Yves Saint Laurent', linea: 'Damas', p3: 29, p5: 46, p10: 85, pFrasco: 640, stock: 10, etiqueta: 'OFERTA', notas: 'Lavanda, azahar, vainilla, ámbar', imagenes: [], enDecants: true, enCatalogo: true, enCombo: true },
+    { id: 'goodgirl', nombre: 'Good Girl', marca: 'Carolina Herrera', linea: 'Damas', p3: 32, p5: 50, p10: 92, pFrasco: 580, stock: 12, etiqueta: 'HOT', notas: 'Almendra, jazmín, cacao, sándalo', imagenes: [], enDecants: true, enCatalogo: true, enCombo: true },
+    { id: 'delina', nombre: 'PDM Delina', marca: 'Parfums de Marly', linea: 'Damas', p3: 55, p5: 88, p10: 165, pFrasco: 1300, stock: 3, etiqueta: 'NUEVO', notas: 'Lichi, rosa turca, vainilla, incienso', imagenes: [], enDecants: true, enCatalogo: true, enCombo: true }
+  ],
+  top10: ['aventus', 'erba-pura', 'hawas-ice', 'br540', 'oud-wood', 'sauvage-elixir', 'khamrah', '9pm', 'layton', 'y-le-parfum'],
+  cats: ['Nicho', 'Diseñador', 'Árabe', 'Damas'],
+  packDiscountGlobal: 12,
+  packs: [
+    { id: 'descubrimiento', nombre: 'Pack Descubrimiento', tipo: 'Mixto', etiqueta: 'HOT', subtitulo: 'Los más pedidos de la tienda, uno de cada estilo.', productos: ['khamrah', '9pm', 'sauvage-elixir', 'hawas-ice', 'y-le-parfum'], imagenes: [] },
+    { id: 'arabes', nombre: 'Pack Árabes', tipo: 'Árabe', etiqueta: 'HOT', subtitulo: 'Dulces, especiados y de estela larga.', productos: ['khamrah', 'khamrah-qahwa', '9pm', 'hawas-ice'], imagenes: [] },
+    { id: 'disenador', nombre: 'Pack Diseñador', tipo: 'Diseñador', etiqueta: 'OFERTA', subtitulo: 'Los clásicos de perfumería de marca.', productos: ['sauvage-elixir', 'y-le-parfum', 'oud-wood'], imagenes: [] },
+    { id: 'nicho', nombre: 'Pack Nicho', tipo: 'Nicho', etiqueta: 'NUEVO', subtitulo: 'Las firmas de nicho más buscadas, juntas.', productos: ['aventus', 'br540', 'erba-pura', 'layton'], imagenes: [] },
+    { id: 'damas', nombre: 'Pack Damas', tipo: 'Damas', etiqueta: 'NUEVO', subtitulo: 'Florales y dulces para ellas, listos para probar.', productos: ['delina', 'goodgirl', 'libre'], imagenes: [] },
+    { id: 'noche', nombre: 'Pack Noche', tipo: 'Mixto', etiqueta: '', subtitulo: 'Intensos para salir: dulces, cuero y maderas.', productos: ['khamrah', 'oud-wood', 'br540'], imagenes: [] }
+  ],
+  tramos: [
+    { label: 'Primer tramo', min: 2, pct: 10, descripcion: 'El punto de partida: dos fragancias para comparar en la misma semana.' },
+    { label: 'Segundo tramo', min: 4, pct: 15, descripcion: 'El combo más pedido: cubre día, oficina y noche con un solo pedido.' },
+    { label: 'Tercer tramo', min: 6, pct: 20, descripcion: 'Para armar tu colección de bolsillo o repartir entre varios.' }
+  ],
+  tamanos: { '3 ml': true, '5 ml': true, '10 ml': true },
+  marcasPorLinea: {
+    'Nicho': 'Creed · Xerjoff · MFK · Initio',
+    'Diseñador': 'Dior · Tom Ford · Saint Laurent',
+    'Árabe': 'Lattafa · Rasasi · Afnan · Armaf',
+    'Damas': 'PDM · Carolina Herrera · YSL'
+  },
+  pedidos: [
+    { id: '#1042', cliente: 'Andrea Ríos', items: 'Khamrah 5 ml · Asad 5 ml', total: 130, estado: 'Nuevo' },
+    { id: '#1041', cliente: 'Luis Mendoza', items: 'Pack Iniciación', total: 120, estado: 'Preparando' },
+    { id: '#1040', cliente: 'Carla Vega', items: 'Baccarat Rouge 540 3 ml', total: 120, estado: 'En camino' },
+    { id: '#1039', cliente: 'Jorge Ponce', items: 'Combo de 5 · 15% desc.', total: 395, estado: 'Entregado' }
+  ],
+  inicio: {
+    aviso: 'Pago contra entrega en toda la ciudad',
+    titular: 'Perfumes originales, en la medida que quieras',
+    bajada: 'Decants de 3, 5 y 10 ml de casas de nicho, diseñador y árabes. Prueba antes de comprar el frasco completo.',
+    cta: 'Ver los decants',
+    heroImagen: ''
+  },
+  contacto: { telefono: '+51 987 654 321', correo: 'maros.perfumes@gmail.com' },
+  redes: { instagram: '', tiktok: 'https://www.tiktok.com/@maros.parfums1', facebook: '', whatsapp: 'https://wa.me/51987654321' },
+  banners: {
+    perfumes: { kicker: '', subtitulo: '' },
+    decants: { kicker: 'Antes de comprar tu botella', subtitulo: 'Prueba fragancias originales en formato pequeño antes de invertir en la botella completa. Sellados y etiquetados al momento de tu pedido.' },
+    packs: { kicker: '', subtitulo: '' },
+    combo: { kicker: '', subtitulo: '' },
+    contacto: { kicker: '', subtitulo: '' }
+  }
+};
+
+const SECTIONS = [
+  { id: 'inicio', label: 'Inicio', title: 'Inicio de la tienda', sub: 'Banner principal y el texto de cabecera de cada sección.' },
+  { id: 'top', label: 'Top 10', title: 'Top 10 más vendidos', sub: 'El orden que ve el cliente en la portada.' },
+  { id: 'perfumes', label: 'Perfumes', title: 'Perfumes', sub: 'Lo que se vende en catálogo (frasco completo).' },
+  { id: 'decants', label: 'Decants', title: 'Decants', sub: 'Lo que se vende por tamaño (3, 5 y 10 ml).' },
+  { id: 'packs', label: 'Packs de decants', title: 'Packs de decants', sub: 'Selecciones ya armadas de la página de Packs.' },
+  { id: 'combo', label: 'Arma tu combo', title: 'Arma tu combo', sub: 'Descuentos por cantidad y tamaños permitidos.' },
+  { id: 'pedidos', label: 'Pedidos', title: 'Pedidos', sub: 'Lo que entra por el carrito y por WhatsApp.' },
+  { id: 'ajustes', label: 'Ajustes', title: 'Ajustes generales', sub: 'Líneas, contacto y redes sociales.' }
+];
+
+const EMPTY = { nombre: '', marca: '', linea: 'Nicho', p3: '', p5: '', p10: '', pFrasco: '', stock: '', etiqueta: '', notas: '', imagenes: ['', '', ''], enDecants: true, enCatalogo: false, enCombo: true };
+
+class Component extends DCLogic {
+  state = {
+    authed: false, user: '', pass: '', loginError: false,
+    section: 'inicio', query: '', lineFilter: '',
+    data: JSON.parse(JSON.stringify(SEED)),
+    draft: null, editingId: null, confirmId: null, toast: '', dragFrom: null, dragOver: null, addTopId: '', newCat: '',
+    packDraft: null, packFilter: ''
+  };
+
+  componentDidMount() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) {
+        const saved = JSON.parse(raw);
+        this.setState({ data: Object.assign(JSON.parse(JSON.stringify(SEED)), saved) });
+      } else {
+        localStorage.setItem(KEY, JSON.stringify(SEED));
+      }
+    } catch (e) {}
+    if (this.props.requiereLogin === false) this.setState({ authed: true });
+  }
+
+  persist(data) {
+    this.setState({ data });
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+  }
+
+  flash(msg) {
+    this.setState({ toast: msg });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ toast: '' }), 2200);
+  }
+
+  clone() { return JSON.parse(JSON.stringify(this.state.data)); }
+
+  imgRows(images, setter) {
+    let arr = (images && images.length ? images.slice() : ['', '', '']);
+    while (arr.length < 3) arr.push('');
+    const readFile = (file, i) => {
+      const r = new FileReader();
+      r.onload = () => setter(arr.map((v, j) => j === i ? r.result : v));
+      r.readAsDataURL(file);
+    };
+    return arr.map((url, i) => ({
+      n: i + 1, url, empty: !url, removable: i >= 3,
+      onChange: e => setter(arr.map((v, j) => j === i ? e.target.value : v)),
+      onFileChange: e => { const file = e.target.files && e.target.files[0]; if (file) readFile(file, i); },
+      onDragOver: e => e.preventDefault(),
+      onDrop: e => {
+        e.preventDefault();
+        const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (!file) {
+          const url2 = e.dataTransfer && e.dataTransfer.getData('text/uri-list');
+          if (url2) setter(arr.map((v, j) => j === i ? url2 : v));
+          return;
+        }
+        readFile(file, i);
+      },
+      remove: () => setter(arr.filter((v, j) => j !== i)),
+      dropStyle: 'width: 100%; height: 96px; box-sizing: border-box; border: 1.5px dashed var(--color-neutral-400); border-radius: var(--radius-md); background: var(--color-neutral-100); display: grid; place-items: center; overflow: hidden; cursor: pointer;',
+      dropStyleFilled: 'width: 100%; height: 96px; box-sizing: border-box; border: 1.5px solid var(--color-divider); border-radius: var(--radius-md); background: var(--color-neutral-100); display: grid; place-items: center; overflow: hidden; cursor: pointer;'
+    }));
+  }
+
+  money(n) {
+    const m = this.props.moneda || 'S/. ';
+    if (n === '' || n === null || n === undefined || isNaN(n)) return '—';
+    return m + Number(n).toLocaleString('es-BO');
+  }
+
+  renderVals() {
+    const s = this.state;
+    const d0 = s.data;
+    const sec = SECTIONS.find(x => x.id === s.section) || SECTIONS[0];
+    const byId = {};
+    d0.products.forEach(p => { byId[p.id] = p; });
+    const counts = {
+      inicio: '', top: d0.top10.length,
+      perfumes: d0.products.filter(p => p.enCatalogo).length, decants: d0.products.filter(p => p.enDecants).length,
+      packs: d0.packs.length,
+      combo: d0.tramos.length, pedidos: d0.pedidos.filter(o => o.estado === 'Nuevo').length || '', ajustes: ''
+    };
+
+    const navBtn = active => 'display: flex; align-items: center; justify-content: space-between; gap: 9px; width: 100%; text-align: left; padding: 10px 27.6px; background: ' +
+      (active ? 'color-mix(in srgb, #b68235 16%, transparent)' : 'transparent') + '; border: 0; border-left: 2px solid ' +
+      (active ? 'var(--color-accent)' : 'transparent') + '; font-family: var(--font-heading); font-size: 17px; letter-spacing: 0.02em; color: ' +
+      (active ? 'var(--color-accent)' : 'var(--color-neutral-400)') + ';';
+
+    const nav = SECTIONS.map(x => ({
+      label: x.label, count: counts[x.id], style: navBtn(x.id === s.section),
+      go: () => this.setState({ section: x.id, draft: null, editingId: null })
+    }));
+
+    const pillStyle = active => 'padding: 9px 20px; border-radius: var(--radius-md); border: 1px solid var(--color-accent); background: ' +
+      (active ? 'var(--color-accent)' : '#fff') + '; color: ' + (active ? '#fff' : 'var(--color-accent-700)') +
+      '; font-family: var(--font-heading); font-weight: 600; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase;';
+
+    const lineTabs = ['Todos'].concat(d0.cats).map(label => ({
+      label, style: pillStyle(s.lineFilter === label || (label === 'Todos' && !s.lineFilter)),
+      go: () => this.setState({ lineFilter: label === 'Todos' ? '' : label })
+    }));
+
+    const q = s.query.trim().toLowerCase();
+    const filtered = d0.products.filter(p => {
+      if (s.section === 'decants' && !p.enDecants) return false;
+      if (s.section === 'perfumes' && !p.enCatalogo) return false;
+      if (s.lineFilter && p.linea !== s.lineFilter) return false;
+      if (q && !(p.nombre + ' ' + p.marca).toLowerCase().includes(q)) return false;
+      return true;
+    });
+
+    const tagStyle = t => {
+      const c = t === 'OFERTA' ? '#8c2f2f' : t === 'NUEVO' ? 'var(--color-neutral-700)' : 'var(--color-accent-700)';
+      return 'display: inline-block; padding: 2px 8px; border: 1px solid ' + c + '; border-radius: 999px; font-size: 10px; letter-spacing: 0.14em; color: ' + c + ';';
+    };
+
+    const rows = filtered.map(p => ({
+      img: (p.imagenes && p.imagenes[0]) || 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="48"><rect width="40" height="48" fill="#e7e4df"/><rect x="13" y="14" width="14" height="24" fill="none" stroke="#b0a99e"/></svg>'),
+      nombre: p.nombre, marca: p.marca, linea: p.linea,
+      p3: this.money(p.p3), p5: this.money(p.p5), p10: this.money(p.p10), pFrasco: this.money(p.pFrasco),
+      stock: p.stock + ' ml', etiqueta: p.etiqueta,
+      tagStyle: tagStyle(p.etiqueta),
+      stockStyle: 'text-align: right; font-size: 14px; font-feature-settings: \'tnum\'; color: ' + (p.stock <= 10 ? '#8c2f2f' : 'var(--color-neutral-700)') + ';',
+      rowStyle: 'min-width: 960px; display: grid; grid-template-columns: 56px minmax(190px, 2fr) minmax(90px, 1fr) 60px 60px 62px 74px 70px 96px; gap: 13.8px; padding: ' +
+        (this.props.filasCompactas ? '8px' : '13.8px') + ' 18.4px; align-items: center; border-bottom: 1px solid var(--color-divider); cursor: pointer; background: ' +
+        (s.editingId === p.id ? 'var(--color-accent-100)' : '#fff') + ';',
+      edit: () => this.setState({ draft: Object.assign({}, p), editingId: p.id })
+    }));
+
+    const top = d0.top10.map((id, i) => {
+      const p = byId[id] || { nombre: '(eliminado)', marca: '', imagenes: [] };
+      const isOver = s.dragOver === i && s.dragFrom !== i;
+      return {
+        pos: String(i + 1).padStart(2, '0'), nombre: p.nombre, marca: p.marca,
+        img: (p.imagenes && p.imagenes[0]) || 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="34" height="42"><rect width="34" height="42" fill="#e7e4df"/></svg>'),
+        style: 'display: flex; align-items: center; gap: 13.8px; padding: 9.2px 13.8px; background: #fff; border: 1px solid ' +
+          (isOver ? 'var(--color-accent)' : 'var(--color-divider)') + '; border-radius: var(--radius-md); opacity: ' +
+          (s.dragFrom === i ? '0.45' : '1') + '; box-shadow: ' + (isOver ? 'var(--shadow-sm)' : 'none') + ';',
+        dragStart: () => this.setState({ dragFrom: i }),
+        dragOver: e => { e.preventDefault(); if (s.dragOver !== i) this.setState({ dragOver: i }); },
+        dragEnd: () => this.setState({ dragFrom: null, dragOver: null }),
+        drop: e => {
+          e.preventDefault();
+          const from = s.dragFrom;
+          this.setState({ dragFrom: null, dragOver: null });
+          if (from === null || from === i) return;
+          const data = this.clone();
+          const moved = data.top10.splice(from, 1)[0];
+          data.top10.splice(i, 0, moved);
+          this.persist(data);
+          this.flash('Orden del Top 10 actualizado');
+        },
+        up: e => { e.stopPropagation(); if (i === 0) return; const data = this.clone(); const t = data.top10; [t[i - 1], t[i]] = [t[i], t[i - 1]]; this.persist(data); },
+        down: e => { e.stopPropagation(); const data = this.clone(); const t = data.top10; if (i === t.length - 1) return; [t[i + 1], t[i]] = [t[i], t[i + 1]]; this.persist(data); },
+        remove: e => { e.stopPropagation(); const data = this.clone(); data.top10.splice(i, 1); this.persist(data); this.flash('Quitado del Top 10'); }
+      };
+    });
+
+    const topCandidates = d0.products.filter(p => p.enDecants && !d0.top10.includes(p.id)).map(p => ({ id: p.id, label: p.nombre + ' · ' + p.marca }));
+
+    const packDisc = d0.packDiscountGlobal ?? 12;
+    const packTypeList = ['Mixto'].concat(d0.cats);
+    const packTabs = ['Todos'].concat(packTypeList).map(label => ({
+      label, style: pillStyle(s.packFilter === label || (label === 'Todos' && !s.packFilter)),
+      go: () => this.setState({ packFilter: label === 'Todos' ? '' : label })
+    }));
+    const shownPacks = d0.packs.filter(k => !s.packFilter || k.tipo === s.packFilter);
+    const decantProducts = d0.products.filter(p => p.enDecants);
+    const packCards = shownPacks.map(k => {
+      const i = d0.packs.indexOf(k);
+      const set = field => e => { const data = this.clone(); data.packs[i][field] = e.target.value; this.persist(data); };
+      const items = (k.productos || []).map(id => byId[id]).filter(Boolean);
+      const before = items.reduce((a, p) => a + (Number(p.p3) || 0), 0);
+      const price = Math.round(before * (100 - packDisc) / 100);
+      return {
+        nombre: k.nombre, tipo: k.tipo, etiqueta: k.etiqueta, subtitulo: k.subtitulo,
+        setNombre: set('nombre'), setTipo: set('tipo'), setEtiqueta: set('etiqueta'), setSubtitulo: set('subtitulo'),
+        resumen: items.length + (items.length === 1 ? ' perfume · ' : ' perfumes · ') + 'desde ' + this.money(price) + ' (antes ' + this.money(before) + ')',
+        imagenesRows: this.imgRows(k.imagenes, arr => { const data = this.clone(); data.packs[i].imagenes = arr; this.persist(data); }),
+        addImage: () => { const data = this.clone(); data.packs[i].imagenes = (k.imagenes || ['', '', '']).concat(''); this.persist(data); },
+        opciones: decantProducts.map(p => ({
+          label: p.nombre + ' · ' + p.marca, on: k.productos.includes(p.id),
+          toggle: () => {
+            const data = this.clone();
+            const list = data.packs[i].productos;
+            data.packs[i].productos = list.includes(p.id) ? list.filter(x => x !== p.id) : [...list, p.id];
+            this.persist(data);
+          }
+        })),
+        remove: () => { const data = this.clone(); data.packs.splice(i, 1); this.persist(data); this.flash('Pack eliminado'); }
+      };
+    });
+    const setPackDiscount = e => { const data = this.clone(); data.packDiscountGlobal = Number(e.target.value); this.persist(data); };
+
+    const EMPTY_PACK_DRAFT = { nombre: '', tipo: d0.cats[0] || 'Nicho', etiqueta: '', subtitulo: '', productos: [], imagenes: ['', '', ''] };
+    const pd = s.packDraft || EMPTY_PACK_DRAFT;
+    const pdField = k => e => this.setState({ packDraft: Object.assign({}, this.state.packDraft || EMPTY_PACK_DRAFT, { [k]: e.target.value }) });
+    const pdh = { nombre: pdField('nombre'), tipo: pdField('tipo'), etiqueta: pdField('etiqueta'), subtitulo: pdField('subtitulo') };
+    const draftOpciones = decantProducts.map(p => ({
+      label: p.nombre + ' · ' + p.marca, on: pd.productos.includes(p.id),
+      toggle: () => {
+        const cur = this.state.packDraft || EMPTY_PACK_DRAFT;
+        const list = cur.productos.includes(p.id) ? cur.productos.filter(x => x !== p.id) : [...cur.productos, p.id];
+        this.setState({ packDraft: Object.assign({}, cur, { productos: list }) });
+      }
+    }));
+    const mainStyle = 'padding: 36.8px 36.8px 73.6px; min-width: 0; transition: filter .2s ease, opacity .2s ease;' +
+      (s.draft ? ' filter: grayscale(1); opacity: 0.45; pointer-events: none;' : '');
+    const packsGridStyle = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18.4px; transition: filter .2s ease, opacity .2s ease;' +
+      (s.packDraft ? ' filter: grayscale(1); opacity: 0.45; pointer-events: none;' : '');
+
+    const cats = d0.cats.map((c, i) => ({
+      nombre: c, count: d0.products.filter(p => p.linea === c).length + ' perfumes',
+      setNombre: e => {
+        const data = this.clone(); const old = data.cats[i]; const val = e.target.value;
+        data.cats[i] = val;
+        data.products.forEach(p => { if (p.linea === old) p.linea = val; });
+        this.persist(data);
+      },
+      remove: () => {
+        if (d0.products.some(p => p.linea === c)) { this.flash('Esa línea todavía tiene perfumes asignados'); return; }
+        const data = this.clone(); data.cats.splice(i, 1); this.persist(data);
+      }
+    }));
+
+    const tramos = d0.tramos.map((t, i) => ({
+      label: t.label, min: t.min, pct: t.pct, descripcion: t.descripcion || '',
+      setMin: e => { const data = this.clone(); data.tramos[i].min = Number(e.target.value); this.persist(data); },
+      setPct: e => { const data = this.clone(); data.tramos[i].pct = Number(e.target.value); this.persist(data); },
+      setDescripcion: e => { const data = this.clone(); data.tramos[i].descripcion = e.target.value; this.persist(data); }
+    }));
+
+    const tamanos = Object.keys(d0.tamanos).map(k => ({
+      label: k, on: !!d0.tamanos[k],
+      toggle: () => { const data = this.clone(); data.tamanos[k] = !data.tamanos[k]; this.persist(data); }
+    }));
+
+    const marcas = d0.cats.map(c => ({
+      linea: c, marcas: (d0.marcasPorLinea || {})[c] || '',
+      setMarcas: e => { const data = this.clone(); if (!data.marcasPorLinea) data.marcasPorLinea = {}; data.marcasPorLinea[c] = e.target.value; this.persist(data); }
+    }));
+
+    const pedidos = d0.pedidos.map((o, i) => ({
+      id: o.id, cliente: o.cliente, items: o.items, total: this.money(o.total), estado: o.estado,
+      setEstado: e => { const data = this.clone(); data.pedidos[i].estado = e.target.value; this.persist(data); }
+    }));
+
+    const setInicio = field => e => { const data = this.clone(); data.inicio[field] = e.target.value; this.persist(data); };
+
+    const d = s.draft || EMPTY;
+    const field = (k, kind) => e => {
+      const v = kind === 'bool' ? e.target.checked : kind === 'num' ? e.target.value : e.target.value;
+      this.setState({ draft: Object.assign({}, this.state.draft || EMPTY, { [k]: v }) });
+    };
+    const h = {
+      nombre: field('nombre'), marca: field('marca'), linea: field('linea'),
+      p3: field('p3', 'num'), p5: field('p5', 'num'), p10: field('p10', 'num'), pFrasco: field('pFrasco', 'num'), stock: field('stock', 'num'),
+      etiqueta: field('etiqueta'), notas: field('notas'),
+      enDecants: field('enDecants', 'bool'), enCatalogo: field('enCatalogo', 'bool'), enCombo: field('enCombo', 'bool')
+    };
+
+    const confirmProd = s.confirmId ? byId[s.confirmId] : null;
+
+    return {
+      showLogin: !s.authed, authed: s.authed,
+      user: s.user, pass: s.pass, loginError: s.loginError,
+      onUser: e => this.setState({ user: e.target.value, loginError: false }),
+      onPass: e => this.setState({ pass: e.target.value, loginError: false }),
+      onLoginKey: e => { if (e.key === 'Enter') this.doLogin(); },
+      onLogin: () => this.doLogin(),
+      onLogout: () => this.setState({ authed: false, user: '', pass: '', draft: null, editingId: null }),
+
+      nav, title: sec.title, subtitle: sec.sub,
+      isProducts: s.section === 'perfumes' || s.section === 'decants', isTop: s.section === 'top', isPacks: s.section === 'packs',
+      isAjustes: s.section === 'ajustes', isCombo: s.section === 'combo', isPedidos: s.section === 'pedidos', isInicio: s.section === 'inicio',
+      showNew: s.section === 'perfumes' || s.section === 'decants' || s.section === 'packs',
+      newLabel: s.section === 'packs' ? 'Nuevo pack' : 'Nuevo perfume',
+      onNew: () => {
+        if (s.section === 'packs') {
+          this.setState({ packDraft: { nombre: '', tipo: d0.cats[0] || 'Nicho', etiqueta: '', subtitulo: '', productos: [], imagenes: ['', '', ''] } });
+          return;
+        }
+        const dec = s.section === 'decants';
+        this.setState({ draft: Object.assign({}, EMPTY, { linea: d0.cats[0] || 'Nicho', enDecants: dec, enCatalogo: !dec }), editingId: null });
+      },
+
+      query: s.query, onQuery: e => this.setState({ query: e.target.value }),
+      rows, noRows: filtered.length === 0,
+
+      top, topCandidates, addTopId: s.addTopId,
+      onAddTopSelect: e => this.setState({ addTopId: e.target.value }),
+      onAddTop: () => {
+        if (!s.addTopId) return;
+        const data = this.clone(); data.top10.push(s.addTopId); this.persist(data);
+        this.setState({ addTopId: '' }); this.flash('Añadido al Top 10');
+      },
+
+      mainStyle,
+      lineTabs, packTabs, packCards, packsGridStyle, packDiscountGlobal: packDisc, setPackDiscount,
+      packDraft: s.packDraft, pd, pdh, draftOpciones,
+      draftImagenesRows: this.imgRows(pd.imagenes, arr => this.setState({ packDraft: Object.assign({}, this.state.packDraft || EMPTY_PACK_DRAFT, { imagenes: arr }) })),
+      onAddDraftPackImage: () => {
+        const cur = this.state.packDraft || EMPTY_PACK_DRAFT;
+        this.setState({ packDraft: Object.assign({}, cur, { imagenes: (cur.imagenes || ['', '', '']).concat('') }) });
+      },
+      onSavePack: () => {
+        const draft = this.state.packDraft; if (!draft) return;
+        if (!draft.nombre.trim()) { this.flash('Ponle un nombre al pack'); return; }
+        const data = this.clone();
+        data.packs.push(Object.assign({ id: 'k' + Date.now() }, draft));
+        this.persist(data);
+        this.setState({ packDraft: null });
+        this.flash('Pack añadido');
+      },
+      onCancelPack: () => this.setState({ packDraft: null }),
+      cats, tramos, tamanos, marcas, pedidos,
+      newCat: s.newCat, onNewCat: e => this.setState({ newCat: e.target.value }),
+      onAddCat: () => {
+        const v = s.newCat.trim(); if (!v) return;
+        const data = this.clone(); data.cats.push(v); this.persist(data); this.setState({ newCat: '' });
+      },
+
+      inicio: d0.inicio,
+      setTitular: setInicio('titular'), setBajada: setInicio('bajada'), setCta: setInicio('cta'), setAviso: setInicio('aviso'),
+      noHeroImg: !d0.inicio.heroImagen,
+      onHeroImgDragOver: e => e.preventDefault(),
+      onHeroImgDrop: e => {
+        e.preventDefault();
+        const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (!file) {
+          const url = e.dataTransfer && e.dataTransfer.getData('text/uri-list');
+          if (url) setInicio('heroImagen')({ target: { value: url } });
+          return;
+        }
+        const r = new FileReader();
+        r.onload = () => setInicio('heroImagen')({ target: { value: r.result } });
+        r.readAsDataURL(file);
+      },
+      setHeroImagen: setInicio('heroImagen'),
+      onHeroFileChange: e => {
+        const file = e.target.files && e.target.files[0]; if (!file) return;
+        const r = new FileReader();
+        r.onload = () => setInicio('heroImagen')({ target: { value: r.result } });
+        r.readAsDataURL(file);
+      },
+      heroDropStyle: 'display: block; border: 1.5px dashed var(--color-neutral-400); border-radius: var(--radius-md); background: var(--color-neutral-900); min-height: 110px; display: grid; place-items: center; padding: 13.8px; text-align: center; cursor: pointer;',
+
+      contacto: d0.contacto,
+      setTelefono: e => { const data = this.clone(); data.contacto.telefono = e.target.value; this.persist(data); },
+      setCorreo: e => { const data = this.clone(); data.contacto.correo = e.target.value; this.persist(data); },
+      redes: d0.redes,
+      setInstagram: e => { const data = this.clone(); data.redes.instagram = e.target.value; this.persist(data); },
+      setTiktok: e => { const data = this.clone(); data.redes.tiktok = e.target.value; this.persist(data); },
+      setFacebook: e => { const data = this.clone(); data.redes.facebook = e.target.value; this.persist(data); },
+      setWhatsapp: e => { const data = this.clone(); data.redes.whatsapp = e.target.value; this.persist(data); },
+
+      banners: Object.keys(d0.banners).map(key => {
+        const labels = { perfumes: 'Catálogo', decants: 'Decants', packs: 'Packs de decants', combo: 'Arma tu combo', contacto: 'Contacto' };
+        return {
+          key, label: labels[key] || key, kicker: d0.banners[key].kicker, subtitulo: d0.banners[key].subtitulo,
+          setKicker: e => { const data = this.clone(); data.banners[key].kicker = e.target.value; this.persist(data); },
+          setSubtitulo: e => { const data = this.clone(); data.banners[key].subtitulo = e.target.value; this.persist(data); }
+        };
+      }),
+
+      panelOpen: !!s.draft, d, h,
+      imagenesRows: this.imgRows(d.imagenes, arr => this.setState({ draft: Object.assign({}, this.state.draft || EMPTY, { imagenes: arr }) })),
+      onAddImage: () => {
+        const cur = this.state.draft || EMPTY;
+        this.setState({ draft: Object.assign({}, cur, { imagenes: (cur.imagenes || ['', '', '']).concat('') }) });
+      },
+      moneda: this.props.moneda || 'S/. ',
+      lineaOpts: d0.cats,
+      panelKicker: s.editingId ? 'Editando' : 'Nuevo registro',
+      panelTitle: s.editingId ? (d.nombre || 'Sin nombre') : 'Nuevo perfume',
+      dropStyle: 'border: 1px dashed var(--color-neutral-400); border-radius: var(--radius-md); background: var(--color-neutral-100); min-height: 132px; display: grid; place-items: center; padding: 13.8px; text-align: center;',
+      onImgDragOver: e => e.preventDefault(),
+      onImgDrop: e => {
+        e.preventDefault();
+        const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (!file) {
+          const url = e.dataTransfer && e.dataTransfer.getData('text/uri-list');
+          if (url) this.setState({ draft: Object.assign({}, this.state.draft || EMPTY, { imagen: url }) });
+          return;
+        }
+        const r = new FileReader();
+        r.onload = () => this.setState({ draft: Object.assign({}, this.state.draft || EMPTY, { imagen: r.result }) });
+        r.readAsDataURL(file);
+      },
+      onSave: () => {
+        const draft = this.state.draft; if (!draft) return;
+        if (!draft.nombre.trim()) { this.flash('Ponle un nombre al perfume'); return; }
+        const data = this.clone();
+        const num = v => (v === '' || v === null ? 0 : Number(v));
+        const rec = Object.assign({}, draft, { p3: num(draft.p3), p5: num(draft.p5), p10: num(draft.p10), pFrasco: num(draft.pFrasco), stock: num(draft.stock) });
+        if (this.state.editingId) {
+          const i = data.products.findIndex(p => p.id === this.state.editingId);
+          data.products[i] = Object.assign(data.products[i], rec);
+        } else {
+          rec.id = 'p' + Date.now();
+          data.products.push(rec);
+        }
+        this.persist(data);
+        this.setState({ draft: null, editingId: null });
+        this.flash('Cambios guardados');
+      },
+      onCancel: () => this.setState({ draft: null, editingId: null }),
+      canDelete: !!s.editingId,
+      onAskDelete: () => this.setState({ confirmId: s.editingId }),
+      confirming: !!s.confirmId,
+      confirmName: confirmProd ? confirmProd.nombre : '',
+      onCancelDelete: () => this.setState({ confirmId: null }),
+      onConfirmDelete: () => {
+        const data = this.clone();
+        data.products = data.products.filter(p => p.id !== s.confirmId);
+        data.top10 = data.top10.filter(id => id !== s.confirmId);
+        this.persist(data);
+        this.setState({ confirmId: null, draft: null, editingId: null });
+        this.flash('Perfume eliminado');
+      },
+      toast: s.toast
+    };
+  }
+
+  doLogin() {
+    const u = (this.state.user || '').trim().toLowerCase();
+    if (u === 'admin' && this.state.pass === 'maros2026') this.setState({ authed: true, loginError: false, pass: '' });
+    else this.setState({ loginError: true });
+  }
+}
+
+</script>
+</body>
+</html>
+
