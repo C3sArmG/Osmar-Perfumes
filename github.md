@@ -2,17 +2,19 @@ repo: C3sArmG/Osmar-Perfumes
 branch: prototipo1
 
 ## Last sync
-date: 2026-08-28T04:02:00Z
-note: Commit del usuario en la rama prototipo1 verificado: 6 páginas + support.js, image-slot.js y _ds/ completo.
+date: 2026-08-29T12:41:31Z
+commit: 8d7805096259
+note: Última vez confirmado igual a la rama. Desde entonces se construyó el panel Admin.dc.html y se conectaron las páginas a sus datos — pendiente de subir (ver abajo).
 
-### Updated in this project
-- Marca renombrada a MAROS; el inicio es "Maros Landing.dc.html"
-- Nuevas páginas Packs.dc.html y Combo.dc.html (Arma tu combo en 3 pasos)
-- Barra fija sin "Inicio" (el logotipo lleva al inicio) y sin icono de usuario
-- Etiquetas HOT/NUEVO/OFERTA, "Añadir al carrito" + "Pedir por WhatsApp", aviso compacto de pago contra entrega
-- Pendiente en el repo: borrar "Osmar Landing.dc.html" (archivo renombrado)
+### Pendiente de subir (no está en la rama todavía)
+- Admin.dc.html — nuevo, panel de administración completo (login, Top 10, Perfumes, Decants, Packs, Arma tu combo, Pedidos, Ajustes)
+- Catalogo.dc.html, Decants.dc.html, Combo.dc.html, Packs.dc.html, Maros Landing.dc.html — modificados: ahora leen productos, packs, banners y Top 10 desde los datos del Admin (localStorage), en vez de listas fijas
+- Contacto.dc.html — sin cambios
+- "Osmar Landing.dc.html" ya no existe en el repo (renombrado a "Maros Landing.dc.html")
+- Solo quedan locales: uploads/ y "Catalogo Osmar Perfumes.html" (material de referencia, no se sube)
 
 ## Sync history
+- 2026-08-28T04:02:00Z: Commit del usuario en prototipo1 verificado: 6 páginas + support.js, image-slot.js y _ds/ completo
 - 2026-08-26T03:08:41Z: Repo limpio y verificado en main: 4 archivos raíz + _ds/ completo
 - 2026-08-26T03:03:24Z: Primer push verificado (archivos raíz)
 - 2026-08-25: Repositorio asociado (vacío, sin commits)
